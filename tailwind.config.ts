@@ -11,9 +11,14 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        platform: "#1f1f1f",
+      },
+      borderColor: {
+        edge: "#6b7280",
+        edge2: "#4b5563",
       },
     },
   },
-  plugins: [],
+  plugins: [require("@tailwindcss/typography")],
 };
 export default config;
