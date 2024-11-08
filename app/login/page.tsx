@@ -59,7 +59,7 @@ export default function Login() {
             <FormItem>
               <FormLabel>Email</FormLabel>
               <FormControl>
-                <Input placeholder="email" {...field} />
+                <Input icon={<EmailIcon />} placeholder="email" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -73,7 +73,12 @@ export default function Login() {
             <FormItem>
               <FormLabel>Password</FormLabel>
               <FormControl>
-                <Input placeholder="password" type="password" {...field} />
+                <Input
+                  icon={<LockIcon />}
+                  placeholder="password"
+                  type="password"
+                  {...field}
+                />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -92,7 +97,7 @@ export default function Login() {
           {form.formState.isSubmitting ? "Loggin in..." : "Login"}
         </button>
         <Button className="text-cyan-400" variant={"link"} asChild>
-          <Link href="/register">don't have an account? create one</Link>
+          <Link href="/register">don't have an account? Register</Link>
         </Button>
       </form>
     </Form>

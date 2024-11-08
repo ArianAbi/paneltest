@@ -1,128 +1,180 @@
 "use client";
 
 import ErrorInput from "@/Components/ErrorInput";
-import TextInput from "@/Components/TextInput";
 import EmailIcon from "@/icons/Email";
 import LockIcon from "@/icons/Lock";
-import { supabase } from "@/util/supabase/SupabaseClient";
 import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/Components/ui/form";
+import { Input } from "@/Components/ui/input";
+import UserIcon from "@/icons/User";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/Components/ui/button";
+import Link from "next/link";
+import { signUpAction } from "../actions";
+import { useState } from "react";
+import { useToast } from "@/hooks/use-toast";
+import Modal from "@/Components/Modal";
 
-type RegisterType = {
-  name: string;
-  email: string;
-  password: string;
-  passwordConfirm: string;
-};
+const RegisterSchema = z
+  .object({
+    name: z
+      .string({ required_error: "name is required" })
+      .min(3, "name should be atleast 2 characters"),
+    email: z
+      .string({ required_error: "email is required" })
+      .email("email is not valid"),
+    password: z
+      .string({ required_error: "password is required" })
+      .min(8, "password should be atleast 8 characters"),
+    passwordC: z.string({ required_error: "password confirm is required" }),
+  })
+  .refine((data) => data.password === data.passwordC, {
+    message: "passwords do not match",
+    path: ["passwordC"],
+  });
 
 export default function Register() {
-  const {
-    register,
-    formState: { errors, isSubmitting },
-    setError,
-    handleSubmit,
-    watch,
-  } = useForm<RegisterType>();
+  const form = useForm<z.infer<typeof RegisterSchema>>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      passwordC: "",
+    },
+  });
 
-  async function onSubmit(data: RegisterType) {
-    const { data: _data, error } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      // options: {
-      //   data: {
-      //     name: data.name,
-      //   },
-      // },
-    });
+  const { toast } = useToast();
 
-    console.log(error);
-    console.log(_data);
-
-    if (error) {
-      setError("root", { message: error.message });
+  async function onSubmit(data: z.infer<typeof RegisterSchema>) {
+    try {
+      await signUpAction(data.name, data.email, data.password);
+      toast({ title: "Account Created", description: `Welcome ${data.name}` });
+      setAccountCreatedModal(true);
+    } catch (err: any) {
+      form.setError("root", { message: err.message });
     }
   }
 
+  const [accountCreatedModal, setAccountCreatedModal] = useState(false);
+
   return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="bg-platform px-4 pb-6 pt-4 rounded-lg border border-edge2 flex flex-col gap-4 items-center max-w-sm w-full m-auto"
-    >
-      <h3>Register</h3>
-
-      <div className="w-full">
-        <TextInput
-          placeholder="name"
-          Icon={<EmailIcon />}
-          disabled={isSubmitting}
-          {...register("name", {
-            required: { value: true, message: "name is required" },
-          })}
-        />
-        {errors.email && <ErrorInput message={errors.email.message} />}
-      </div>
-
-      <div className="w-full">
-        <TextInput
-          placeholder="email"
-          Icon={<EmailIcon />}
-          disabled={isSubmitting}
-          {...register("email", {
-            required: { value: true, message: "email is required" },
-            pattern: {
-              value: /^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/,
-              message: "Enter a valid email address",
-            },
-          })}
-        />
-        {errors.email && <ErrorInput message={errors.email.message} />}
-      </div>
-
-      <div className="w-full">
-        <TextInput
-          placeholder="password"
-          type="password"
-          Icon={<LockIcon />}
-          disabled={isSubmitting}
-          {...register("password", {
-            required: "password is required",
-            minLength: {
-              value: 8,
-              message: "password must be atleast 8 characters",
-            },
-          })}
-        />
-        {errors.password && <ErrorInput message={errors.password.message} />}
-      </div>
-
-      <div className="w-full">
-        <TextInput
-          placeholder="password confirm"
-          type="password"
-          Icon={<LockIcon />}
-          disabled={isSubmitting}
-          {...register("passwordConfirm", {
-            required: "password confirm is required",
-            minLength: {
-              value: 8,
-              message: "password must be atleast 8 characters",
-            },
-            validate: (val: string) => {
-              if (val !== watch("password")) {
-                return "passwords do not match";
-              }
-            },
-          })}
-        />
-        {errors.password && <ErrorInput message={errors.password.message} />}
-      </div>
-
-      <button
-        className="bg-lime-700 hover:bg-lime-600 transition-colors font-semibold w-full py-2 px-3 rounded-lg disabled:saturate-50 disabled:hover:bg-lime-700"
-        disabled={isSubmitting}
-        type="submit"
+    <>
+      <Modal
+        open={accountCreatedModal}
+        setOpen={setAccountCreatedModal}
+        title="Verify Email"
+        description="verify you'r email so you can login"
       >
-        {isSubmitting ? "Register..." : "Register"}
-      </button>
-    </form>
+        <Button
+          className="w-full font-semibold bg-lime-500 hover:bg-lime-400"
+          asChild
+        >
+          <Link href="/login">Login</Link>
+        </Button>
+
+        <Button className="text-cyan-400" variant={"link"} asChild>
+          <Link href="/">go home</Link>
+        </Button>
+      </Modal>
+
+      <Form {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="bg-platform px-4 pb-6 pt-4 rounded-lg border border-edge2 flex flex-col gap-4 items-center max-w-sm w-full m-auto"
+        >
+          <h3>Register</h3>
+
+          <FormField
+            name="name"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl>
+                  <Input icon={<UserIcon />} placeholder="name" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="email"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input icon={<EmailIcon />} placeholder="email" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="password"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    icon={<LockIcon />}
+                    placeholder="password"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            name="passwordC"
+            control={form.control}
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Password Confirm</FormLabel>
+                <FormControl>
+                  <Input
+                    type="password"
+                    icon={<LockIcon />}
+                    placeholder="password confirm"
+                    {...field}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          {form.formState.errors.root && (
+            <ErrorInput message={form.formState.errors.root.message} />
+          )}
+
+          <button
+            className="bg-lime-700 hover:bg-lime-600 transition-colors font-semibold w-full py-2 px-3 rounded-lg disabled:saturate-50 disabled:hover:bg-lime-700"
+            disabled={form.formState.isSubmitting}
+            type="submit"
+          >
+            {form.formState.isSubmitting ? "Register..." : "Register"}
+          </button>
+          <Button className="text-cyan-400" variant={"link"} asChild>
+            <Link href="/login">have an account? Login</Link>
+          </Button>
+        </form>
+      </Form>
+    </>
   );
 }
