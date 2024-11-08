@@ -26,7 +26,7 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" className="dark">
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-svh prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full`}
       >

@@ -11,9 +11,9 @@ export const signInAction = async (email: string, password: string) => {
     password,
   });
 
-  // if (error) {
-  //   return encodedRedirect("error", "/sign-in", error.message);
-  // }
+  if (error) {
+    throw error.message;
+  }
 
   return redirect("/");
 };
