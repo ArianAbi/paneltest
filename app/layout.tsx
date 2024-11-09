@@ -10,6 +10,8 @@ import { createContext, useEffect, useState } from "react";
 import { createClient } from "@/util/supabase/SupabaseClient";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/ui/AppSidebar";
+import { Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
+import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -72,18 +74,27 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-svh `}
       >
-        <RoleContext.Provider value={role}>
-          <Header user={user} />
-          <SidebarProvider>
-            <AppSidebar isAdmin={role === "admin" ? true : false} />
-            <main className="py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
-              <SidebarTrigger />
-              {children}
-            </main>
-            <Toaster />
-          </SidebarProvider>
-          <Footer />
-        </RoleContext.Provider>
+        <TooltipProvider>
+          <RoleContext.Provider value={role}>
+            <Header user={user} />
+            <SidebarProvider defaultOpen={false}>
+              <AppSidebar isAdmin={role === "admin" ? true : false} />
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <SidebarTrigger className="ml-2" />
+                </TooltipTrigger>
+                <TooltipContent side="bottom">
+                  <span>Menu</span>
+                </TooltipContent>
+              </Tooltip>
+              <div className="py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
+                <main className="container mx-auto">{children}</main>
+              </div>
+              <Toaster />
+            </SidebarProvider>
+            <Footer />
+          </RoleContext.Provider>
+        </TooltipProvider>
       </body>
     </html>
   );

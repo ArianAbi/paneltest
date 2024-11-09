@@ -47,7 +47,7 @@ export default function Login() {
   return (
     <Form {...form}>
       <form
-        className="bg-platform px-4 pb-6 pt-4 rounded-lg border border-edge2 flex flex-col gap-4 items-center max-w-sm w-full m-auto"
+        className="bg-platform px-4 pb-6 pt-4 mt-12 mx-auto rounded-lg border border-edge2 flex flex-col gap-4 items-center max-w-sm w-full "
         onSubmit={form.handleSubmit(onSubmit)}
       >
         <h3>Login</h3>

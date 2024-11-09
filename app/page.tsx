@@ -1,9 +1,30 @@
-export default function Home() {
+import { createClient } from "@/util/supabase/SupabaseServer";
+
+export default async function Home() {
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  // display another ui if user is not logged in
+  if (!user) {
+    return <h2>Login to Proceed</h2>;
+  }
+
+  const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
   return (
-    <>
-      <main className="container mx-auto my-4">
-        <h2>Login to Proceed</h2>
-      </main>
-    </>
+    <div>
+      <h2>
+        Welcome{" "}
+        <span className="font-bold underline underline-offset-2">
+          {profile?.name}
+        </span>
+      </h2>
+    </div>
   );
 }
