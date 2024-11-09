@@ -1,11 +1,4 @@
-import { createClient } from "@/util/supabase/SupabaseServer";
-
-export default async function Home() {
-  const supabase = createClient();
-  const {
-    data: { user },
-  } = await (await supabase).auth.getUser();
-
+export default function Home() {
   return (
     <>
       <main className="container mx-auto my-4">

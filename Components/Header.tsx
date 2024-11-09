@@ -1,23 +1,10 @@
-import { signOutAction } from "@/app/actions";
-import { createClient } from "@/util/supabase/SupabaseServer";
+"use client";
+
+import { signOutAction } from "@/util/actions/GeneralActions";
 import { Button } from "./ui/button";
-import { buttonVariants } from "./ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "./ui/dialog";
 import Link from "next/link";
 
-export default async function Header() {
-  const supabase = await createClient();
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
+export default function Header({ user }: { user: any }) {
   return (
     <>
       <header className="h-[70px] border-b-2 border-edge px-5 py-2 flex justify-between items-center">

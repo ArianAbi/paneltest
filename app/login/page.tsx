@@ -3,7 +3,7 @@
 import EmailIcon from "@/icons/Email";
 import LockIcon from "@/icons/Lock";
 import { useForm } from "react-hook-form";
-import { signInAction } from "../actions";
+import { signInAction } from "@/util/actions/GeneralActions";
 import {
   Form,
   FormControl,

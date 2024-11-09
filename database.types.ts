@@ -11,19 +11,25 @@ export type Database = {
     Tables: {
       profiles: {
         Row: {
+          employeeType: Database["public"]["Enums"]["employeeType"] | null
           id: string
           name: string | null
-          picture: string | null
+          profile: string | null
+          role: string
         }
         Insert: {
+          employeeType?: Database["public"]["Enums"]["employeeType"] | null
           id: string
           name?: string | null
-          picture?: string | null
+          profile?: string | null
+          role?: string
         }
         Update: {
+          employeeType?: Database["public"]["Enums"]["employeeType"] | null
           id?: string
           name?: string | null
-          picture?: string | null
+          profile?: string | null
+          role?: string
         }
         Relationships: []
       }
@@ -65,7 +71,11 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      employeeType:
+        | "frontend-developer"
+        | "backend-developer"
+        | "leader"
+        | "unset"
     }
     CompositeTypes: {
       [_ in never]: never
