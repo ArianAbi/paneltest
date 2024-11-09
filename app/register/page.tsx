@@ -1,6 +1,6 @@
 "use client";
 
-import ErrorInput from "@/Components/ErrorInput";
+import ErrorInput from "@/components/ErrorInput";
 import EmailIcon from "@/icons/Email";
 import LockIcon from "@/icons/Lock";
 import { useForm } from "react-hook-form";
@@ -12,15 +12,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/Components/ui/form";
-import { Input } from "@/Components/ui/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import UserIcon from "@/icons/User";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Button } from "@/Components/ui/button";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import Modal from "@/Components/Modal";
+import Modal from "@/components/Modal";
 
 const RegisterSchema = z
   .object({

@@ -8,9 +8,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/Components/ui/form";
+} from "@/components/ui/form";
 import UserIcon from "@/icons/User";
-import { Input } from "@/Components/ui/input";
+import { Input } from "@/components/ui/input";
 import EmailIcon from "@/icons/Email";
 import LockIcon from "@/icons/Lock";
 import { Dialog, DialogTitle, DialogTrigger } from "@radix-ui/react-dialog";
@@ -18,19 +18,19 @@ import {
   DialogClose,
   DialogContent,
   DialogHeader,
-} from "@/Components/ui/dialog";
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/Components/ui/select";
-import { Button } from "@/Components/ui/button";
+} from "@/components/ui/select";
+import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { AdminSignUpAction } from "@/util/actions/Admin/ManageUserActions";
-import ErrorInput from "@/Components/ErrorInput";
+import ErrorInput from "@/components/ErrorInput";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ProfilesType } from "@/types/user";

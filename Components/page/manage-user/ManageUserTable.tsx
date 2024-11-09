@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/Components/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,13 +8,13 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/Components/ui/table";
+} from "@/components/ui/table";
 import { ProfilesType } from "@/types/user";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/Components/ui/popover";
+} from "@/components/ui/popover";
 import { User } from "@supabase/supabase-js";
 import { AdminDeleteAccount } from "@/util/actions/Admin/ManageUserActions";
 import { PopoverClose } from "@radix-ui/react-popover";

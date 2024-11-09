@@ -1,6 +1,6 @@
 import { supabaseAdminClient } from "@/util/supabase/SupabaseClientAdmin";
-import AdminCreateUser from "@/Components/page/manage-user/AdminCreateUser";
-import ManageUserTable from "@/Components/page/manage-user/ManageUserTable";
+import AdminCreateUser from "@/components/page/manage-user/AdminCreateUser";
+import ManageUserTable from "@/components/page/manage-user/ManageUserTable";
 
 export default async function ManageUser() {
   const {

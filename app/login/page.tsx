@@ -11,12 +11,12 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/Components/ui/form";
-import { Input } from "@/Components/ui/input";
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ErrorInput from "@/Components/ErrorInput";
-import { Button } from "@/Components/ui/button";
+import ErrorInput from "@/components/ErrorInput";
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const LoginSchema = z.object({

@@ -15,21 +15,21 @@ export type Database = {
           id: string
           name: string | null
           profile: string | null
-          role: string
+          role: Database["public"]["Enums"]["role"] | null
         }
         Insert: {
           employeeType?: Database["public"]["Enums"]["employeeType"] | null
           id: string
           name?: string | null
           profile?: string | null
-          role?: string
+          role?: Database["public"]["Enums"]["role"] | null
         }
         Update: {
           employeeType?: Database["public"]["Enums"]["employeeType"] | null
           id?: string
           name?: string | null
           profile?: string | null
-          role?: string
+          role?: Database["public"]["Enums"]["role"] | null
         }
         Relationships: []
       }
@@ -76,6 +76,7 @@ export type Database = {
         | "backend-developer"
         | "leader"
         | "unset"
+      role: "user" | "admin"
     }
     CompositeTypes: {
       [_ in never]: never

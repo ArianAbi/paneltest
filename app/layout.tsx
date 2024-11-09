@@ -3,11 +3,13 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "@/Components/Header";
-import Footer from "@/Components/Footer";
-import { Toaster } from "@/Components/ui/toaster";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
+import { Toaster } from "@/components/ui/toaster";
 import { createContext, useEffect, useState } from "react";
 import { createClient } from "@/util/supabase/SupabaseClient";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/ui/AppSidebar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -68,12 +70,18 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-svh prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-svh `}
       >
         <RoleContext.Provider value={role}>
           <Header user={user} />
-          <main className="py-8 w-full">{children}</main>
-          <Toaster />
+          <SidebarProvider>
+            <AppSidebar isAdmin={role === "admin" ? true : false} />
+            <main className="py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
+              <SidebarTrigger />
+              {children}
+            </main>
+            <Toaster />
+          </SidebarProvider>
           <Footer />
         </RoleContext.Provider>
       </body>
