@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Sidebar,
   SidebarContent,
@@ -8,6 +10,8 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import BuildingsIcon from "@/icons/Buildings";
+import ComputerIcon from "@/icons/Computer";
 import HomeIcon from "@/icons/Home";
 import UserIcon from "@/icons/User";
 import Link from "next/link";
@@ -23,6 +27,16 @@ export function AppSidebar({ isAdmin }: { isAdmin: boolean }) {
       title: "Manage Users",
       url: "/admin/manage-users",
       icon: <UserIcon />,
+    },
+    {
+      title: "Manage Departments",
+      url: "/admin/manage-departments",
+      icon: <BuildingsIcon />,
+    },
+    {
+      title: "Manage Projects",
+      url: "/admin/manage-projects",
+      icon: <ComputerIcon />,
     },
   ];
 

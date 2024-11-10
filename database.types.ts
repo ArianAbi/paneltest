@@ -9,6 +9,24 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      department: {
+        Row: {
+          created_at: string
+          id: string
+          name: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          name: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           employeeType: Database["public"]["Enums"]["employeeType"] | null
@@ -33,35 +51,90 @@ export type Database = {
         }
         Relationships: []
       }
-      tasks: {
+      project: {
         Row: {
           created_at: string
-          created_by: string
-          description: string
-          id: number
-          status: string | null
+          deadline: string | null
+          department: string
+          description: string | null
+          id: string
+          leader: string | null
+          staff: string[] | null
+          started_at: string | null
+          tasks: string[] | null
           title: string
-          type: string
         }
         Insert: {
           created_at?: string
-          created_by: string
-          description: string
-          id?: number
-          status?: string | null
+          deadline?: string | null
+          department: string
+          description?: string | null
+          id?: string
+          leader?: string | null
+          staff?: string[] | null
+          started_at?: string | null
+          tasks?: string[] | null
           title: string
-          type: string
         }
         Update: {
           created_at?: string
-          created_by?: string
-          description?: string
-          id?: number
-          status?: string | null
+          deadline?: string | null
+          department?: string
+          description?: string | null
+          id?: string
+          leader?: string | null
+          staff?: string[] | null
+          started_at?: string | null
+          tasks?: string[] | null
           title?: string
-          type?: string
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "project_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "department"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tasks: {
+        Row: {
+          assigned_to: string[] | null
+          created_at: string
+          description: string
+          id: string
+          project: string | null
+          status: Database["public"]["Enums"]["task_status"] | null
+          title: string
+        }
+        Insert: {
+          assigned_to?: string[] | null
+          created_at?: string
+          description: string
+          id?: string
+          project?: string | null
+          status?: Database["public"]["Enums"]["task_status"] | null
+          title: string
+        }
+        Update: {
+          assigned_to?: string[] | null
+          created_at?: string
+          description?: string
+          id?: string
+          project?: string | null
+          status?: Database["public"]["Enums"]["task_status"] | null
+          title?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tasks_project_fkey"
+            columns: ["project"]
+            isOneToOne: false
+            referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -77,6 +150,7 @@ export type Database = {
         | "leader"
         | "unset"
       role: "user" | "admin"
+      task_status: "not-started" | "under-development" | "done"
     }
     CompositeTypes: {
       [_ in never]: never

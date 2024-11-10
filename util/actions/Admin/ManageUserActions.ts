@@ -68,6 +68,4 @@ export const AdminDeleteAccount = async (id: string) => {
   }
 
   revalidatePath("/admin/manage-user");
-
-  console.log("im called form end");
 };

@@ -20,7 +20,6 @@ import { AdminDeleteAccount } from "@/util/actions/Admin/ManageUserActions";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { revalidatePath } from "next/cache";
 
 interface Data {
   user: User;
@@ -42,8 +41,6 @@ export default function ManageUserTable({ user }: { user: Data[] }) {
         title: "user deleted successfully",
         className: "text-emerald-500 font-semibold",
       });
-
-      // revalidatePath("/admin/manage-user");
     } catch (err: any) {
       toast({ title: err.message, variant: "destructive" });
     } finally {
