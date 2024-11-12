@@ -34,6 +34,8 @@ import ErrorInput from "@/components/ErrorInput";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ProfilesType } from "@/types/user";
+import PhoneIcon from "@/icons/Phone";
+import { useRouter } from "next/navigation";
 
 export default function AdminCreateUser() {
   const [open, setOpen] = useState(false);
@@ -49,12 +51,16 @@ export default function AdminCreateUser() {
   const { toast } = useToast();
 
   const RegisterSchema = z.object({
-    name: z
-      .string({ required_error: "name is required" })
-      .min(3, "name should be atleast 3 characters"),
+    first_name: z
+      .string({ required_error: "first name is required" })
+      .min(3, "first name should be atleast 3 characters"),
+    last_name: z
+      .string({ required_error: "last name is required" })
+      .min(3, "last name should be atleast 3 characters"),
     email: z
       .string({ required_error: "email is required" })
       .email("email is not valid"),
+    phone: z.string(),
     password: z
       .string({ required_error: "password is required" })
       .min(8, "password should be atleast 8 characters"),
@@ -64,23 +70,33 @@ export default function AdminCreateUser() {
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      name: "",
+      first_name: "",
+      last_name: "",
       email: "",
+      phone: "",
       password: "",
       employeeType: "unset",
     },
   });
 
+  const router = useRouter();
+
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     try {
       await AdminSignUpAction(
-        data.name,
+        data.first_name,
+        data.last_name,
+        data.phone,
         data.email,
         data.password,
         data.employeeType as ProfilesType["employeeType"]
       );
       setOpen(false);
-      toast({ title: "Account Created for " + data.name });
+      toast({
+        title: "Account Created for " + data.first_name + data.last_name,
+      });
+
+      router.refresh();
     } catch (err: any) {
       form.setError("root", { message: err.message });
     }
@@ -104,24 +120,46 @@ export default function AdminCreateUser() {
               onSubmit={form.handleSubmit(onSubmit)}
               className="flex flex-col gap-2"
             >
-              {/* name */}
-              <FormField
-                name="name"
-                control={form.control}
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Name</FormLabel>
-                    <FormControl>
-                      <Input
-                        icon={<UserIcon />}
-                        placeholder="name"
-                        {...field}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
+              {/* group of two */}
+              <div className="w-full flex items-center gap-2">
+                {/*first name */}
+                <FormField
+                  name="first_name"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>First Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          icon={<UserIcon />}
+                          placeholder="first name"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                {/*last name */}
+                <FormField
+                  name="last_name"
+                  control={form.control}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Last Name</FormLabel>
+                      <FormControl>
+                        <Input
+                          icon={<UserIcon />}
+                          placeholder="last name"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
 
               {/* email */}
               <FormField
@@ -134,6 +172,25 @@ export default function AdminCreateUser() {
                       <Input
                         icon={<EmailIcon />}
                         placeholder="email"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              {/* phone */}
+              <FormField
+                name="phone"
+                control={form.control}
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Phone</FormLabel>
+                    <FormControl>
+                      <Input
+                        icon={<PhoneIcon />}
+                        placeholder="phone"
                         {...field}
                       />
                     </FormControl>

@@ -13,41 +13,20 @@ export type Database = {
         Row: {
           created_at: string
           id: string
+          manager: string | null
           name: string
         }
         Insert: {
           created_at?: string
           id?: string
+          manager?: string | null
           name: string
         }
         Update: {
           created_at?: string
           id?: string
+          manager?: string | null
           name?: string
-        }
-        Relationships: []
-      }
-      profiles: {
-        Row: {
-          employeeType: Database["public"]["Enums"]["employeeType"] | null
-          id: string
-          name: string | null
-          profile: string | null
-          role: Database["public"]["Enums"]["role"] | null
-        }
-        Insert: {
-          employeeType?: Database["public"]["Enums"]["employeeType"] | null
-          id: string
-          name?: string | null
-          profile?: string | null
-          role?: Database["public"]["Enums"]["role"] | null
-        }
-        Update: {
-          employeeType?: Database["public"]["Enums"]["employeeType"] | null
-          id?: string
-          name?: string | null
-          profile?: string | null
-          role?: Database["public"]["Enums"]["role"] | null
         }
         Relationships: []
       }
@@ -57,9 +36,11 @@ export type Database = {
           deadline: string | null
           department: string
           description: string | null
+          end_date: string | null
           id: string
           leader: string | null
-          staff: string[] | null
+          priority: Database["public"]["Enums"]["project_priority"]
+          progress: number
           started_at: string | null
           tasks: string[] | null
           title: string
@@ -69,9 +50,11 @@ export type Database = {
           deadline?: string | null
           department: string
           description?: string | null
+          end_date?: string | null
           id?: string
           leader?: string | null
-          staff?: string[] | null
+          priority?: Database["public"]["Enums"]["project_priority"]
+          progress?: number
           started_at?: string | null
           tasks?: string[] | null
           title: string
@@ -81,9 +64,11 @@ export type Database = {
           deadline?: string | null
           department?: string
           description?: string | null
+          end_date?: string | null
           id?: string
           leader?: string | null
-          staff?: string[] | null
+          priority?: Database["public"]["Enums"]["project_priority"]
+          progress?: number
           started_at?: string | null
           tasks?: string[] | null
           title?: string
@@ -94,6 +79,35 @@ export type Database = {
             columns: ["department"]
             isOneToOne: false
             referencedRelation: "department"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_members: {
+        Row: {
+          id: string | null
+          project_id: string
+          role_in_project: string | null
+          user_id: string | null
+        }
+        Insert: {
+          id?: string | null
+          project_id: string
+          role_in_project?: string | null
+          user_id?: string | null
+        }
+        Update: {
+          id?: string | null
+          project_id?: string
+          role_in_project?: string | null
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_members_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project"
             referencedColumns: ["id"]
           },
         ]
@@ -136,6 +150,42 @@ export type Database = {
           },
         ]
       }
+      users: {
+        Row: {
+          department_id: string[] | null
+          email: string | null
+          employeeType: Database["public"]["Enums"]["employeeType"] | null
+          first_name: string | null
+          id: string
+          last_name: string | null
+          phone: string | null
+          profile_base64_img: string | null
+          role: Database["public"]["Enums"]["role"] | null
+        }
+        Insert: {
+          department_id?: string[] | null
+          email?: string | null
+          employeeType?: Database["public"]["Enums"]["employeeType"] | null
+          first_name?: string | null
+          id: string
+          last_name?: string | null
+          phone?: string | null
+          profile_base64_img?: string | null
+          role?: Database["public"]["Enums"]["role"] | null
+        }
+        Update: {
+          department_id?: string[] | null
+          email?: string | null
+          employeeType?: Database["public"]["Enums"]["employeeType"] | null
+          first_name?: string | null
+          id?: string
+          last_name?: string | null
+          phone?: string | null
+          profile_base64_img?: string | null
+          role?: Database["public"]["Enums"]["role"] | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -149,6 +199,7 @@ export type Database = {
         | "backend-developer"
         | "leader"
         | "unset"
+      project_priority: "low" | "medium" | "high"
       role: "user" | "admin"
       task_status: "not-started" | "under-development" | "done"
     }

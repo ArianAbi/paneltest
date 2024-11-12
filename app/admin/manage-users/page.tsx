@@ -1,27 +1,18 @@
 import { supabaseAdminClient } from "@/util/supabase/SupabaseClientAdmin";
 import AdminCreateUser from "@/components/page/manage-user/AdminCreateUser";
 import ManageUserTable from "@/components/page/manage-user/ManageUserTable";
+import { createClient } from "@/util/supabase/SupabaseServer";
 
 export default async function ManageUser() {
-  const {
-    data: { users },
-    error: _user_error,
-  } = await supabaseAdminClient.auth.admin.listUsers();
+  const supabase = await createClient();
 
-  const { data: _profiles, error: _profile_error } = await supabaseAdminClient
-    .from("profiles")
+  const { data: _users, error: _users_error } = await supabase
+    .from("users")
     .select("*");
 
-  if (_profile_error) {
-    throw _profile_error.message;
+  if (_users_error) {
+    throw _users_error.message;
   }
-
-  const allUsers = users.map((user, _i) => {
-    const relatedProfileIndex = _profiles.findIndex((value) => {
-      return value.id === user.id;
-    });
-    return { user: user, profile: _profiles[relatedProfileIndex] };
-  });
 
   return (
     <>
@@ -29,7 +20,7 @@ export default async function ManageUser() {
         <h3>Manage User's</h3>
 
         <AdminCreateUser />
-        <ManageUserTable user={allUsers} />
+        <ManageUserTable users={_users} />
       </main>
     </>
   );

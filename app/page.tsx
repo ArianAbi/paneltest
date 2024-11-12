@@ -12,8 +12,8 @@ export default async function Home() {
     return <h2>Login to Proceed</h2>;
   }
 
-  const { data: profile } = await supabase
-    .from("profiles")
+  const { data: users } = await supabase
+    .from("users")
     .select("*")
     .eq("id", user.id)
     .single();
@@ -22,7 +22,7 @@ export default async function Home() {
       <h2>
         Welcome{" "}
         <span className="font-bold underline underline-offset-2">
-          {profile?.name}
+          {users?.first_name}
         </span>
       </h2>
     </div>

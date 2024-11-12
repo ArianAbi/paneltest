@@ -20,13 +20,16 @@ import { AdminDeleteAccount } from "@/util/actions/Admin/ManageUserActions";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
+import { Database } from "@/database.types";
+import { useRouter } from "next/navigation";
 
-interface Data {
-  user: User;
-  profile: ProfilesType;
-}
+export default function ManageUserTable({
+  users,
+}: {
+  users: Database["public"]["Tables"]["users"]["Row"][] | null;
+}) {
+  const router = useRouter();
 
-export default function ManageUserTable({ user }: { user: Data[] }) {
   const [popoverOpen, setPopoverOpen] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -41,6 +44,8 @@ export default function ManageUserTable({ user }: { user: Data[] }) {
         title: "user deleted successfully",
         className: "text-emerald-500 font-semibold",
       });
+
+      router.refresh();
     } catch (err: any) {
       toast({ title: err.message, variant: "destructive" });
     } finally {
@@ -49,39 +54,55 @@ export default function ManageUserTable({ user }: { user: Data[] }) {
     }
   }
 
+  if (!users) {
+    return (
+      <p className="my-8 text-xl italic w-full text-center">
+        No Users Could be Fetched
+      </p>
+    );
+  }
+
   return (
     <div className="w-full">
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>Name</TableHead>
+            <TableHead>First Name</TableHead>
+            <TableHead>Last Name</TableHead>
             <TableHead>Email</TableHead>
+            <TableHead>Mobile</TableHead>
             <TableHead>Employee Type</TableHead>
             <TableHead>Delete</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
-          {user.map(({ user, profile }, _i) => {
-            if (!profile) {
+          {users.map((user, _i) => {
+            if (!user) {
               return;
             }
 
             return (
               <TableRow key={_i}>
                 <TableCell>
-                  {profile.name ? profile.name : "_unnamed_"}
+                  {user.first_name ? user.first_name : "_unnamed_"}
+                </TableCell>
+                <TableCell>
+                  {user.last_name ? user.last_name : "_unnamed_"}
                 </TableCell>
                 <TableCell>{user.email}</TableCell>
+                <TableCell>
+                  {user.phone ? user.phone : "_not_provided_"}
+                </TableCell>
                 <TableCell
                   className={
-                    profile.role === "admin" ? "text-emerald-500 font-bold" : ""
+                    user.role === "admin" ? "text-emerald-500 font-bold" : ""
                   }
                 >
-                  {profile.employeeType}
+                  {user.employeeType}
                 </TableCell>
 
                 <TableCell>
-                  {profile.role !== "admin" && (
+                  {user.role !== "admin" && (
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button className="font-semibold" variant="destructive">

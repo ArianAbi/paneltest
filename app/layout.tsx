@@ -1,6 +1,5 @@
 "use client";
 
-import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
@@ -12,6 +11,8 @@ import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/ui/AppSidebar";
 import { Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
 import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
+import TopLoader from "@/components/Toploader";
+import AdminUsersListContext from "@/components/AdminUsersListContext";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -53,7 +54,7 @@ export default function RootLayout({
       setUser(session.user);
 
       const { data: _role_data } = await supabase
-        .from("profiles")
+        .from("users")
         .select("role")
         .eq("id", session.user.id)
         .single();
@@ -74,25 +75,28 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-svh `}
       >
+        <TopLoader />
         <TooltipProvider>
           <RoleContext.Provider value={role}>
-            <Header user={user} />
-            <SidebarProvider defaultOpen={false}>
-              <AppSidebar isAdmin={role === "admin" ? true : false} />
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <SidebarTrigger className="ml-2" />
-                </TooltipTrigger>
-                <TooltipContent side="bottom">
-                  <span>Menu</span>
-                </TooltipContent>
-              </Tooltip>
-              <div className="py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
-                <main className="container mx-auto">{children}</main>
-              </div>
-              <Toaster />
-            </SidebarProvider>
-            <Footer />
+            <AdminUsersListContext>
+              <Header user={user} />
+              <SidebarProvider defaultOpen={false}>
+                <AppSidebar isAdmin={role === "admin" ? true : false} />
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <SidebarTrigger className="ml-2" />
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">
+                    <span>Menu</span>
+                  </TooltipContent>
+                </Tooltip>
+                <div className="py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
+                  <main className="container mx-auto">{children}</main>
+                </div>
+                <Toaster />
+              </SidebarProvider>
+              <Footer />
+            </AdminUsersListContext>
           </RoleContext.Provider>
         </TooltipProvider>
       </body>
