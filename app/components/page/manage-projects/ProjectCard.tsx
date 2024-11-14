@@ -12,9 +12,9 @@ import {
 import { Skeleton } from "@/app/components/ui/skeleton";
 import UserProfile from "@/app/components/UserProfile";
 import { Database } from "@/database.types";
-import { getUsersFromIdsAction } from "@/util/actions/Admin/ManageProjectsActions";
 import { createClient } from "@/util/supabase/SupabaseClient";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
+import { allUsersContext } from "../../AdminUsersListContext";
 
 interface ProjectData {
   project_data: Database["public"]["Tables"]["project"]["Row"] & {
@@ -26,6 +26,8 @@ interface ProjectData {
 
 export default function ProjectCard({ project_data }: ProjectData) {
   const supabase = createClient();
+
+  const allUsers = useContext(allUsersContext);
 
   const [leader, setLeader] = useState<
     null | Database["public"]["Tables"]["users"]["Row"]
@@ -49,32 +51,63 @@ export default function ProjectCard({ project_data }: ProjectData) {
     setLeader(_leader);
   }
 
-  async function fetchMembers() {
-    if (!project_data.project_members) {
+  // async function fetchMembers() {
+  //   if (!project_data.project_members) {
+  //     return;
+  //   }
+
+  //   const ids = project_data.project_members.map((memb) => memb.user_id);
+
+  //   try {
+  //     if (ids) {
+  //       const members = await getUsersFromIdsAction(ids as string[]);
+
+  //       if (members) {
+  //         setMembers(members as Database["public"]["Tables"]["users"]["Row"][]);
+  //       }
+  //     }
+  //   } catch (err) {
+  //     console.log(err);
+  //   } finally {
+  //     setMembersLoading(false);
+  //   }
+  // }
+
+  async function getMembers() {
+    if (!project_data.project_members || !allUsers) {
+      setMembersLoading(false);
       return;
     }
 
-    const ids = project_data.project_members.map((memb) => memb.user_id);
+    const _members = [] as Database["public"]["Tables"]["users"]["Row"][];
 
-    try {
-      if (ids) {
-        const members = await getUsersFromIdsAction(ids as string[]);
+    project_data.project_members.forEach((member) => {
+      const userIndex = allUsers.findIndex(
+        (user) => user.id === member.user_id
+      );
+      console.log(userIndex);
 
-        if (members) {
-          setMembers(members as Database["public"]["Tables"]["users"]["Row"][]);
-        }
+      if (userIndex != -1) {
+        _members.push(allUsers[userIndex]);
       }
-    } catch (err) {
-      console.log(err);
-    } finally {
-      setMembersLoading(false);
-    }
+    });
+
+    setMembersLoading(false);
+    setMembers(_members);
   }
 
   useEffect(() => {
+    if (allUsers) {
+      getMembers();
+    }
+  }, [allUsers]);
+
+  useEffect(() => {
     getLeader();
-    fetchMembers();
+    // fetchMembers();
   }, []);
+
+  useEffect(() => {}, [allUsers]);
 
   return (
     <>
@@ -99,18 +132,13 @@ export default function ProjectCard({ project_data }: ProjectData) {
                 .fill(null)
                 .map((_k, _i) => <Skeleton key={_i} className="h-6 w-24" />)}
 
-            {/* fallback for when project has no members */}
-            {project_data.project_members &&
-              project_data.project_members.length === 0 && (
-                <p className="my-0 italic">No Members</p>
-              )}
-
             {/* members */}
             {members &&
               members.map((member) => {
                 return <UserProfile key={member.id} user={member} />;
               })}
 
+            {/* fallback for when project has no members */}
             {!membersLoading && members?.length === 0 && (
               <p className="my-0">no members assigned</p>
             )}

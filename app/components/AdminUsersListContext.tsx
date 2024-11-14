@@ -1,7 +1,7 @@
 "use client";
 
 import { Database } from "@/database.types";
-import { supabaseAdminClient } from "@/util/supabase/SupabaseClientAdmin";
+import { createClient } from "@/util/supabase/SupabaseClient";
 import { createContext, useEffect, useState } from "react";
 
 export const allUsersContext = createContext<
@@ -13,7 +13,7 @@ export default function AdminUsersListContext({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabaseAdmin = supabaseAdminClient;
+  const supabaseAdmin = createClient();
 
   const [allUsers, setAllUsers] = useState<
     null | Database["public"]["Tables"]["users"]["Row"][]
@@ -62,6 +62,9 @@ export default function AdminUsersListContext({
         .from("users")
         .select("*");
 
+      console.log("MESSAGE");
+      console.log(_user);
+
       if (_users_error) {
         throw _users_error.message;
       }
@@ -83,7 +86,7 @@ export default function AdminUsersListContext({
         setAllUsers(users);
       }
     })();
-  });
+  }, []);
 
   return (
     <allUsersContext.Provider value={allUsers}>
