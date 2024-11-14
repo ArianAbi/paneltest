@@ -41,7 +41,7 @@ export default function ProjectCard({ project_data }: ProjectData) {
   const [membersLoading, setMembersLoading] = useState(true);
 
   async function getLeader() {
-    const { data: _leader, error: _leader_error } = await supabase
+    const { data: _leader } = await supabase
       .from("users")
       .select("*")
       .eq("id", project_data.leader)
@@ -57,7 +57,7 @@ export default function ProjectCard({ project_data }: ProjectData) {
       return;
     }
 
-    let _members = [] as Database["public"]["Tables"]["users"]["Row"][];
+    const _members = [] as Database["public"]["Tables"]["users"]["Row"][];
 
     project_data.project_members.forEach((member) => {
       const userIndex = allUsers.findIndex(

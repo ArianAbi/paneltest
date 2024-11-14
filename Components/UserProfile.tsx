@@ -1,7 +1,6 @@
 "use client";
 
 import { Database } from "@/database.types";
-import { User } from "@supabase/supabase-js";
 import Image from "next/image";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 

@@ -16,7 +16,7 @@ export default async function ManageDepartments() {
   return (
     <>
       <main className="container mx-auto border border-edge2 rounded-xl p-6">
-        <h3>Manage Department's</h3>
+        <h3>Manage Department&apos;s</h3>
 
         <AddDeparment />
         <ManageDepartmentTable departments={_departments} />

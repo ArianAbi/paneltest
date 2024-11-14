@@ -18,9 +18,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { User } from "@supabase/supabase-js";
 import { Database } from "@/database.types";
-import { supabaseAdminClient } from "@/util/supabase/SupabaseClientAdmin";
 import { allUsersContext } from "@/components/AdminUsersListContext";
 
 interface SelectLeader {

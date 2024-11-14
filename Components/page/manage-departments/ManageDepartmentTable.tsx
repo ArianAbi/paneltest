@@ -16,7 +16,6 @@ import {
 } from "@/components/ui/popover";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Database } from "@/database.types";
-import BuildingIcon from "@/icons/Building";
 import { useState } from "react";
 import { deleteDeparmentAction } from "@/util/actions/Admin/ManageDepartmentsActions";
 import { useToast } from "@/hooks/use-toast";

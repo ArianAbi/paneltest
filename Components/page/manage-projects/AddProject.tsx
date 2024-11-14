@@ -22,7 +22,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorInput from "@/components/ErrorInput";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { createDepartmentAction } from "@/util/actions/Admin/ManageDepartmentsActions";
 import { cn } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { CalendarIcon } from "lucide-react";

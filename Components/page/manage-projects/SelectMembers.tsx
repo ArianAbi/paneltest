@@ -1,9 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { Check, ChevronsUpDown } from "lucide-react";
+import { ChevronsUpDown } from "lucide-react";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import {
   Command,
@@ -18,9 +17,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { User } from "@supabase/supabase-js";
 import { Database } from "@/database.types";
-import { supabaseAdminClient } from "@/util/supabase/SupabaseClientAdmin";
 import UserProfile from "@/components/UserProfile";
 import { allUsersContext } from "@/components/AdminUsersListContext";
 
@@ -47,7 +44,7 @@ export default function SelectMembers({ value, setValue }: SelectLeader) {
   }, [usersCTX]);
 
   function addUser(user_id: string) {
-    let newValue = [...value];
+    const newValue = [...value];
 
     const currentIdIndex = newValue.findIndex((id) => id === user_id);
 
@@ -58,7 +55,7 @@ export default function SelectMembers({ value, setValue }: SelectLeader) {
   }
 
   function removeUser(user_id: string) {
-    let newValue = [...value];
+    const newValue = [...value];
 
     const currentIdIndex = newValue.findIndex((id) => id === user_id);
 

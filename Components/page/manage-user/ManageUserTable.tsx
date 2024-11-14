@@ -20,7 +20,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Database } from "@/database.types";
 import { useRouter } from "next/navigation";
-import AdminEditUser from "./AdminEditUser";
+// import AdminEditUser from "./AdminEditUser";
 import TrashIcon from "@/icons/Trash";
 
 export default function ManageUserTable({
@@ -29,8 +29,6 @@ export default function ManageUserTable({
   users: Database["public"]["Tables"]["users"]["Row"][] | null;
 }) {
   const router = useRouter();
-
-  const [popoverOpen, setPopoverOpen] = useState(false);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
@@ -49,7 +47,6 @@ export default function ManageUserTable({
     } catch (err: any) {
       toast({ title: err.message, variant: "destructive" });
     } finally {
-      setPopoverOpen(false);
       setIsSubmitting(false);
     }
   }

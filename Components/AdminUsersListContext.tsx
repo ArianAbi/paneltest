@@ -2,8 +2,6 @@
 
 import { Database } from "@/database.types";
 import { createClient } from "@/util/supabase/SupabaseClient";
-import { supabaseAdminClient } from "@/util/supabase/SupabaseClientAdmin";
-import { redirect } from "next/navigation";
 import { createContext, useEffect, useState } from "react";
 
 export const allUsersContext = createContext<
@@ -85,7 +83,7 @@ export default function AdminUsersListContext({
         setAllUsers(users);
       }
     })();
-  }, []);
+  });
 
   return (
     <allUsersContext.Provider value={allUsers}>

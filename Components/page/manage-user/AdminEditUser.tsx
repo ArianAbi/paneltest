@@ -29,10 +29,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-  AdminSignUpAction,
-  AdminUpdateUserAction,
-} from "@/util/actions/Admin/ManageUserActions";
+import { AdminUpdateUserAction } from "@/util/actions/Admin/ManageUserActions";
 import ErrorInput from "@/components/ErrorInput";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";

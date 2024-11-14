@@ -16,8 +16,6 @@ import { Input } from "@/components/ui/input";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import ErrorInput from "@/components/ErrorInput";
-import { Button } from "@/components/ui/button";
-import Link from "next/link";
 
 const LoginSchema = z.object({
   email: z
@@ -96,9 +94,6 @@ export default function Login() {
         >
           {form.formState.isSubmitting ? "Loggin in..." : "Login"}
         </button>
-        <Button className="text-cyan-400" variant={"link"} asChild>
-          <Link href="/register">don't have an account? Register</Link>
-        </Button>
       </form>
     </Form>
   );

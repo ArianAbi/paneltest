@@ -12,7 +12,7 @@ export default async function ManageProjects() {
   return (
     <>
       <main className="container mx-auto border border-edge2 rounded-xl p-6">
-        <h3>Manage Project's</h3>
+        <h3>Manage Project&apos;s</h3>
 
         <AddProject />
         {error ? (
