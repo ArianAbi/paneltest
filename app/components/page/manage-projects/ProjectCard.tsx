@@ -13,6 +13,7 @@ import {
 import { Skeleton } from "@/app/components/ui/skeleton";
 import UserProfile from "@/app/components/UserProfile";
 import { Database } from "@/database.types";
+import { getUsersFromIdsAction } from "@/util/actions/Admin/ManageProjectsActions";
 import { createClient } from "@/util/supabase/SupabaseClient";
 import { useContext, useEffect, useState } from "react";
 
@@ -51,37 +52,29 @@ export default function ProjectCard({ project_data }: ProjectData) {
     setLeader(_leader);
   }
 
-  async function getMembers() {
-    if (!project_data.project_members || !allUsers) {
-      setMembersLoading(false);
+  async function fetchMembers() {
+    if (!project_data.project_members) {
       return;
     }
 
-    const _members = [] as Database["public"]["Tables"]["users"]["Row"][];
+    const ids = project_data.project_members.map((memb) => memb.user_id);
 
-    project_data.project_members.forEach((member) => {
-      const userIndex = allUsers.findIndex(
-        (user) => user.id === member.user_id
-      );
-      console.log(userIndex);
+    try {
+      if (ids) {
+        const members = await getUsersFromIdsAction(ids as string[]);
 
-      if (userIndex != -1) {
-        _members.push(allUsers[userIndex]);
+        if (members) {
+          setMembers(members as Database["public"]["Tables"]["users"]["Row"][]);
+        }
       }
-    });
-
-    setMembersLoading(false);
-    setMembers(_members);
+    } catch (err) {
+      console.log(err);
+    }
   }
 
   useEffect(() => {
-    if (allUsers) {
-      getMembers();
-    }
-  }, [allUsers]);
-
-  useEffect(() => {
     getLeader();
+    fetchMembers();
   }, []);
 
   return (
@@ -100,12 +93,20 @@ export default function ProjectCard({ project_data }: ProjectData) {
 
           <div className="flex flex-wrap gap-2 mt-6">
             <span>Members : </span>
+            {/* fallback for when project members are loading */}
             {!members &&
               membersLoading &&
               Array(3)
                 .fill(null)
                 .map((_k, _i) => <Skeleton key={_i} className="h-6 w-24" />)}
 
+            {/* fallback for when project has no members */}
+            {project_data.project_members &&
+              project_data.project_members.length === 0 && (
+                <p className="my-0 italic">No Members</p>
+              )}
+
+            {/* members */}
             {members &&
               members.map((member) => {
                 return <UserProfile key={member.id} user={member} />;

@@ -29,8 +29,6 @@ export const createProjectAction = async (
   members: string[],
   priority: string
 ) => {
-  console.log(title);
-
   const supabase = await createClient();
 
   const { data: _project, error: _project_error } = await supabase
@@ -67,4 +65,22 @@ export const createProjectAction = async (
   }
 
   revalidatePath("/admin/manage-projects");
+};
+
+export const getUsersFromIdsAction = async (ids: string[]) => {
+  const supabase = await createClient();
+
+  const { data: users } = await supabase.from("users").select("*");
+
+  if (!users) {
+    throw "could not fetch the users - returnUsersFromIdsAction";
+  }
+
+  const filterdUsers = users.map((user) => {
+    if (ids.includes(user.id)) {
+      return user;
+    }
+  });
+
+  return filterdUsers;
 };

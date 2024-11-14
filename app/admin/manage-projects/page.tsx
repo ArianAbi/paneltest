@@ -9,6 +9,8 @@ export default async function ManageProjects() {
     .from("project")
     .select("*,project_members(*)");
 
+  console.log(error);
+
   return (
     <>
       <main className="container mx-auto border border-edge2 rounded-xl p-6">
