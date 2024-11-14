@@ -1,6 +1,5 @@
 "use client";
 
-import { allUsersContext } from "@/app/components/AdminUsersListContext";
 import { Button } from "@/app/components/ui/button";
 import {
   Card,
