@@ -28,8 +28,6 @@ interface ProjectData {
 export default function ProjectCard({ project_data }: ProjectData) {
   const supabase = createClient();
 
-  const allUsers = useContext(allUsersContext);
-
   const [leader, setLeader] = useState<
     null | Database["public"]["Tables"]["users"]["Row"]
   >(null);
@@ -69,6 +67,8 @@ export default function ProjectCard({ project_data }: ProjectData) {
       }
     } catch (err) {
       console.log(err);
+    } finally {
+      setMembersLoading(false);
     }
   }
 
