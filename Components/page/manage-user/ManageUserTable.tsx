@@ -9,19 +9,19 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { ProfilesType } from "@/types/user";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { User } from "@supabase/supabase-js";
 import { AdminDeleteAccount } from "@/util/actions/Admin/ManageUserActions";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Database } from "@/database.types";
 import { useRouter } from "next/navigation";
+import AdminEditUser from "./AdminEditUser";
+import TrashIcon from "@/icons/Trash";
 
 export default function ManageUserTable({
   users,
@@ -72,7 +72,7 @@ export default function ManageUserTable({
             <TableHead>Email</TableHead>
             <TableHead>Mobile</TableHead>
             <TableHead>Employee Type</TableHead>
-            <TableHead>Delete</TableHead>
+            <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -101,17 +101,19 @@ export default function ManageUserTable({
                   {user.employeeType}
                 </TableCell>
 
-                <TableCell>
+                <TableCell className="flex">
                   {user.role !== "admin" && (
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button className="font-semibold" variant="destructive">
-                          Delete
+                          <TrashIcon />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent>
                         <div className="w-full text-center">
-                          <h4 className="text-base mt-2">Delete This User?</h4>
+                          <h4 className="text-base mt-2">
+                            Delete {user.first_name + " " + user.last_name}?
+                          </h4>
                           <p className="text-sm text-gray-400">
                             this action could not be undone
                           </p>
@@ -142,6 +144,8 @@ export default function ManageUserTable({
                       </PopoverContent>
                     </Popover>
                   )}
+
+                  {/* <AdminEditUser user={user} /> */}
                 </TableCell>
               </TableRow>
             );

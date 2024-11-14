@@ -76,3 +76,52 @@ export const AdminDeleteAccount = async (id: string) => {
 
   revalidatePath("/admin/manage-user");
 };
+
+export const AdminUpdateUserAction = async (
+  id: string,
+  first_name: string,
+  last_name: string,
+  phone: string,
+  email: string,
+  password: string,
+  employeeType: ProfilesType["employeeType"]
+) => {
+  const supabase = await createClientAdmin();
+
+  const { data: _update_auth_user_data, error: _update_auth_user_error } =
+    await supabase.auth.admin.updateUserById(id, {
+      email: email,
+      phone: phone,
+      ...(password != "" && { password: password }),
+    });
+
+  if (_update_auth_user_error) {
+    console.log(_update_auth_user_error);
+
+    throw _update_auth_user_error.message;
+  }
+
+  if (!_update_auth_user_data.user) {
+    throw "failed to update the user";
+  }
+
+  const { data, error: _update_public_user_error } = await supabase
+    .from("users")
+    .update({
+      first_name: first_name,
+      last_name: last_name,
+      email: email,
+      phone: phone,
+      employeeType: employeeType,
+    })
+    .eq("id", id)
+    .select();
+
+  console.log(_update_public_user_error);
+  console.log(id);
+  if (_update_public_user_error) {
+    throw _update_public_user_error.message;
+  }
+
+  revalidatePath("/admin/manage-user");
+};

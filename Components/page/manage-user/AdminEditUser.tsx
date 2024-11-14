@@ -29,15 +29,24 @@ import {
 import { Button } from "@/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AdminSignUpAction } from "@/util/actions/Admin/ManageUserActions";
+import {
+  AdminSignUpAction,
+  AdminUpdateUserAction,
+} from "@/util/actions/Admin/ManageUserActions";
 import ErrorInput from "@/components/ErrorInput";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ProfilesType } from "@/types/user";
 import PhoneIcon from "@/icons/Phone";
 import { useRouter } from "next/navigation";
+import { Database } from "@/database.types";
+import EditIcon from "@/icons/Edit";
 
-export default function AdminCreateUser() {
+export default function AdminEditUser({
+  user,
+}: {
+  user: Database["public"]["Tables"]["users"]["Update"];
+}) {
   const [open, setOpen] = useState(false);
 
   const EmployeeSelect = ({
@@ -61,21 +70,19 @@ export default function AdminCreateUser() {
       .string({ required_error: "email is required" })
       .email("email is not valid"),
     phone: z.string(),
-    password: z
-      .string({ required_error: "password is required" })
-      .min(8, "password should be atleast 8 characters"),
+    password: z.string({ required_error: "password is required" }),
     employeeType: z.string({ required_error: "employee type is required" }),
   });
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      first_name: "",
-      last_name: "",
-      email: "",
-      phone: "",
+      first_name: user.first_name ? user.first_name : "",
+      last_name: user.last_name ? user.last_name : "",
+      email: user.email ? user.email : "",
+      phone: user.phone ? user.phone : "",
       password: "",
-      employeeType: "unset",
+      employeeType: user.employeeType ? user.employeeType : "",
     },
   });
 
@@ -83,13 +90,17 @@ export default function AdminCreateUser() {
 
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     try {
-      await AdminSignUpAction(
+      if (!user.id) {
+        throw "failed to get the user id";
+      }
+      await AdminUpdateUserAction(
+        user.id,
         data.first_name,
         data.last_name,
         data.phone,
         data.email,
         data.password,
-        data.employeeType as ProfilesType["employeeType"]
+        data.employeeType
       );
       setOpen(false);
       toast({
@@ -106,13 +117,13 @@ export default function AdminCreateUser() {
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="float-end mx-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
-            Create User
+          <Button className="float-end first:mx-0 mx-2 bg-cyan-700 hover:bg-cyan-600 text-white font-semibold">
+            <EditIcon />
           </Button>
         </DialogTrigger>
-        <DialogContent className="border-emerald-600">
+        <DialogContent className="border-cyan-600">
           <DialogHeader>
-            <DialogTitle>Create New User</DialogTitle>
+            <DialogTitle>Edit</DialogTitle>
           </DialogHeader>
 
           <Form {...form}>
@@ -205,11 +216,13 @@ export default function AdminCreateUser() {
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Password</FormLabel>
+                    <FormLabel>
+                      Password - {`( leave empty for unchanged )`}
+                    </FormLabel>
                     <FormControl>
                       <Input
                         icon={<LockIcon />}
-                        placeholder="password"
+                        placeholder="leave empty to keep the password"
                         {...field}
                       />
                     </FormControl>
@@ -259,13 +272,13 @@ export default function AdminCreateUser() {
                 </DialogClose>
                 <Button
                   type="submit"
-                  className={`w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold disabled:saturate-50 ${
+                  className={`w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold disabled:saturate-50 ${
                     form.formState.isSubmitting ? "animate-pulse" : ""
                   }`}
                   variant={"default"}
                   disabled={form.formState.isSubmitting}
                 >
-                  {form.formState.isSubmitting ? "Creating..." : "Create"}
+                  {form.formState.isSubmitting ? "Updating..." : "Update"}
                 </Button>
               </div>
             </form>
