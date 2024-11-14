@@ -3,8 +3,13 @@
 import { signOutAction } from "@/util/actions/GeneralActions";
 import { Button } from "./ui/button";
 import Link from "next/link";
+import { Database } from "@/database.types";
 
-export default function Header({ user }: { user: any }) {
+export default function Header({
+  user,
+}: {
+  user: Database["public"]["Tables"]["users"]["Row"] | null;
+}) {
   return (
     <>
       <header className="h-[70px] border-b-2 border-edge px-5 py-2 flex justify-between items-center">

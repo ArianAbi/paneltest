@@ -15,11 +15,12 @@ export const signInAction = async (email: string, password: string) => {
     throw error.message;
   }
 
-  return redirect("/");
+  redirect("/");
 };
 
 export const signOutAction = async () => {
   const supabase = await createClient();
   await supabase.auth.signOut();
-  return redirect("/");
+
+  redirect("/");
 };

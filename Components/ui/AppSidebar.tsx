@@ -10,13 +10,18 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
+import { Database } from "@/database.types";
 import BuildingsIcon from "@/icons/Buildings";
 import ComputerIcon from "@/icons/Computer";
 import HomeIcon from "@/icons/Home";
 import UserIcon from "@/icons/User";
 import Link from "next/link";
 
-export function AppSidebar({ isAdmin }: { isAdmin: boolean }) {
+export function AppSidebar({
+  user,
+}: {
+  user: Database["public"]["Tables"]["users"]["Row"] | null;
+}) {
   const adminItems = [
     {
       title: "Home",
@@ -55,28 +60,39 @@ export function AppSidebar({ isAdmin }: { isAdmin: boolean }) {
           <SidebarGroupLabel className="text-sm">Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {isAdmin &&
-                adminItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.url}>
-                        {item.icon && item.icon}
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
-              {!isAdmin &&
-                userItems.map((item) => (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild>
-                      <Link href={item.url}>
-                        {item.icon}
-                        <span>{item.title}</span>
-                      </Link>
-                    </SidebarMenuButton>
-                  </SidebarMenuItem>
-                ))}
+              {user && user.role === "admin"
+                ? adminItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link href={item.url}>
+                          {item.icon && item.icon}
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))
+                : userItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link href={item.url}>
+                          {item.icon && item.icon}
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  ))}
+              {!user ||
+                (user.role != "admin" &&
+                  userItems.map((item) => (
+                    <SidebarMenuItem key={item.title}>
+                      <SidebarMenuButton asChild>
+                        <Link href={item.url}>
+                          {item.icon}
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                    </SidebarMenuItem>
+                  )))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

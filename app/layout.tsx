@@ -1,18 +1,17 @@
-"use client";
-
 import localFont from "next/font/local";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Toaster } from "@/components/ui/toaster";
-import { createContext, useEffect, useState } from "react";
-import { createClient } from "@/util/supabase/SupabaseClient";
+import { createClient } from "@/util/supabase/SupabaseServer";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/ui/AppSidebar";
 import { Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
 import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
 import TopLoader from "@/components/Toploader";
 import AdminUsersListContext from "@/components/AdminUsersListContext";
+import CurrectUserContext from "@/util/CurrentUserContext";
+import { Database } from "@/database.types";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -25,50 +24,37 @@ const geistMono = localFont({
   weight: "100 900",
 });
 
-export const RoleContext = createContext<"user" | "admin" | undefined | null>(
-  undefined
-);
-
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const [role, setRole] = useState<"user" | "admin" | undefined | null>(
-    undefined
-  );
-  const [user, setUser] = useState<null | any>(null);
-  const supabase = createClient();
+  const supabase = await createClient();
 
-  useEffect(() => {
-    const getCurrentUserRole = async () => {
-      const {
-        data: { session },
-      } = await supabase.auth.getSession();
+  let currenctUser:
+    | undefined
+    | null
+    | Database["public"]["Tables"]["users"]["Row"] = undefined;
 
-      if (!session) {
-        setRole(null);
-        return;
-      }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-      setUser(session.user);
+  if (user) {
+    const { data: _current_user } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", user.id)
+      .single();
 
-      const { data: _role_data } = await supabase
-        .from("users")
-        .select("role")
-        .eq("id", session.user.id)
-        .single();
-
-      if (!_role_data) {
-        setRole(undefined);
-        return;
-      }
-
-      setRole(_role_data.role);
-    };
-
-    getCurrentUserRole();
-  }, []);
+    if (_current_user) {
+      currenctUser = _current_user;
+    } else {
+      currenctUser = null;
+    }
+  } else {
+    currenctUser = null;
+  }
 
   return (
     <html lang="en" className="dark">
@@ -77,11 +63,11 @@ export default function RootLayout({
       >
         <TopLoader />
         <TooltipProvider>
-          <RoleContext.Provider value={role}>
+          <CurrectUserContext user={currenctUser}>
             <AdminUsersListContext>
-              <Header user={user} />
+              <Header user={currenctUser} />
               <SidebarProvider defaultOpen={false}>
-                <AppSidebar isAdmin={role === "admin" ? true : false} />
+                <AppSidebar user={currenctUser} />
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <SidebarTrigger className="ml-2" />
@@ -97,7 +83,7 @@ export default function RootLayout({
               </SidebarProvider>
               <Footer />
             </AdminUsersListContext>
-          </RoleContext.Provider>
+          </CurrectUserContext>
         </TooltipProvider>
       </body>
     </html>
