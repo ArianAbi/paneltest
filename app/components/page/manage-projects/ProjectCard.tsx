@@ -15,7 +15,7 @@ import UserProfile from "@/app/components/UserProfile";
 import { Database } from "@/database.types";
 import { getUsersFromIdsAction } from "@/util/actions/Admin/ManageProjectsActions";
 import { createClient } from "@/util/supabase/SupabaseClient";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 interface ProjectData {
   project_data: Database["public"]["Tables"]["project"]["Row"] & {
