@@ -97,7 +97,7 @@ export default function AdminEditUser({
         data.phone,
         data.email,
         data.password,
-        data.employeeType
+        data.employeeType as Database["public"]["Tables"]["users"]["Row"]["employeeType"]
       );
       setOpen(false);
       toast({
