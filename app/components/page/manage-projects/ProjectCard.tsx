@@ -1,7 +1,7 @@
 "use client";
 
-import { allUsersContext } from "@/components/AdminUsersListContext";
-import { Button } from "@/components/ui/button";
+import { allUsersContext } from "@/app/components/AdminUsersListContext";
+import { Button } from "@/app/components/ui/button";
 import {
   Card,
   CardContent,
@@ -9,9 +9,9 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card";
-import { Skeleton } from "@/components/ui/skeleton";
-import UserProfile from "@/components/UserProfile";
+} from "@/app/components/ui/card";
+import { Skeleton } from "@/app/components/ui/skeleton";
+import UserProfile from "@/app/components/UserProfile";
 import { Database } from "@/database.types";
 import { createClient } from "@/util/supabase/SupabaseClient";
 import { useContext, useEffect, useState } from "react";

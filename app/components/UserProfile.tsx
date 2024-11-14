@@ -1,6 +1,6 @@
 "use client";
 
-import { Database } from "@/database.types";
+import { Database } from "../../database.types";
 import Image from "next/image";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 

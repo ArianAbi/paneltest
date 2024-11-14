@@ -8,9 +8,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/app/components/ui/form";
 import UserIcon from "@/icons/User";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/components/ui/input";
 import EmailIcon from "@/icons/Email";
 import LockIcon from "@/icons/Lock";
 import { Dialog, DialogTitle, DialogTrigger } from "@radix-ui/react-dialog";
@@ -18,32 +18,26 @@ import {
   DialogClose,
   DialogContent,
   DialogHeader,
-} from "@/components/ui/dialog";
+} from "@/app/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
-import { Button } from "@/components/ui/button";
+} from "@/app/components/ui/select";
+import { Button } from "@/app/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { AdminUpdateUserAction } from "@/util/actions/Admin/ManageUserActions";
-import ErrorInput from "@/components/ErrorInput";
+import { AdminSignUpAction } from "@/util/actions/Admin/ManageUserActions";
+import ErrorInput from "@/app/components/ErrorInput";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { ProfilesType } from "@/types/user";
 import PhoneIcon from "@/icons/Phone";
 import { useRouter } from "next/navigation";
-import { Database } from "@/database.types";
-import EditIcon from "@/icons/Edit";
 
-export default function AdminEditUser({
-  user,
-}: {
-  user: Database["public"]["Tables"]["users"]["Update"];
-}) {
+export default function AdminCreateUser() {
   const [open, setOpen] = useState(false);
 
   const EmployeeSelect = ({
@@ -67,19 +61,21 @@ export default function AdminEditUser({
       .string({ required_error: "email is required" })
       .email("email is not valid"),
     phone: z.string(),
-    password: z.string({ required_error: "password is required" }),
+    password: z
+      .string({ required_error: "password is required" })
+      .min(8, "password should be atleast 8 characters"),
     employeeType: z.string({ required_error: "employee type is required" }),
   });
 
   const form = useForm<z.infer<typeof RegisterSchema>>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      first_name: user.first_name ? user.first_name : "",
-      last_name: user.last_name ? user.last_name : "",
-      email: user.email ? user.email : "",
-      phone: user.phone ? user.phone : "",
+      first_name: "",
+      last_name: "",
+      email: "",
+      phone: "",
       password: "",
-      employeeType: user.employeeType ? user.employeeType : "",
+      employeeType: "unset",
     },
   });
 
@@ -87,17 +83,13 @@ export default function AdminEditUser({
 
   async function onSubmit(data: z.infer<typeof RegisterSchema>) {
     try {
-      if (!user.id) {
-        throw "failed to get the user id";
-      }
-      await AdminUpdateUserAction(
-        user.id,
+      await AdminSignUpAction(
         data.first_name,
         data.last_name,
         data.phone,
         data.email,
         data.password,
-        data.employeeType
+        data.employeeType as ProfilesType["employeeType"]
       );
       setOpen(false);
       toast({
@@ -114,13 +106,13 @@ export default function AdminEditUser({
     <>
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
-          <Button className="float-end first:mx-0 mx-2 bg-cyan-700 hover:bg-cyan-600 text-white font-semibold">
-            <EditIcon />
+          <Button className="float-end mx-2 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold">
+            Create User
           </Button>
         </DialogTrigger>
-        <DialogContent className="border-cyan-600">
+        <DialogContent className="border-emerald-600">
           <DialogHeader>
-            <DialogTitle>Edit</DialogTitle>
+            <DialogTitle>Create New User</DialogTitle>
           </DialogHeader>
 
           <Form {...form}>
@@ -213,13 +205,11 @@ export default function AdminEditUser({
                 control={form.control}
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      Password - {`( leave empty for unchanged )`}
-                    </FormLabel>
+                    <FormLabel>Password</FormLabel>
                     <FormControl>
                       <Input
                         icon={<LockIcon />}
-                        placeholder="leave empty to keep the password"
+                        placeholder="password"
                         {...field}
                       />
                     </FormControl>
@@ -269,13 +259,13 @@ export default function AdminEditUser({
                 </DialogClose>
                 <Button
                   type="submit"
-                  className={`w-full bg-cyan-600 hover:bg-cyan-500 text-white font-bold disabled:saturate-50 ${
+                  className={`w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold disabled:saturate-50 ${
                     form.formState.isSubmitting ? "animate-pulse" : ""
                   }`}
                   variant={"default"}
                   disabled={form.formState.isSubmitting}
                 >
-                  {form.formState.isSubmitting ? "Updating..." : "Update"}
+                  {form.formState.isSubmitting ? "Creating..." : "Create"}
                 </Button>
               </div>
             </form>

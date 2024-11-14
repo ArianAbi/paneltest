@@ -1,5 +1,5 @@
-import AddDeparment from "@/components/page/manage-departments/AddDeparment";
-import ManageDepartmentTable from "@/components/page/manage-departments/ManageDepartmentTable";
+import AddDeparment from "@/app/components/page/manage-departments/AddDeparment";
+import ManageDepartmentTable from "@/app/components/page/manage-departments/ManageDepartmentTable";
 import { createClient } from "@/util/supabase/SupabaseServer";
 
 export default async function ManageDepartments() {

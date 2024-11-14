@@ -9,7 +9,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar";
+} from "@/app/components/ui/sidebar";
 import { Database } from "@/database.types";
 import BuildingsIcon from "@/icons/Buildings";
 import ComputerIcon from "@/icons/Computer";

@@ -8,33 +8,38 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
-import { Input } from "@/components/ui/input";
+} from "@/app/components/ui/form";
+import { Input } from "@/app/components/ui/input";
 import { Dialog, DialogTitle, DialogTrigger } from "@radix-ui/react-dialog";
 import {
   DialogClose,
   DialogContent,
   DialogHeader,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "@/app/components/ui/dialog";
+import { Button } from "@/app/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ErrorInput from "@/components/ErrorInput";
+import ErrorInput from "@/app/components/ErrorInput";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { cn } from "@/lib/utils";
 import { formatDate } from "date-fns";
 import { CalendarIcon } from "lucide-react";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar } from "@/app/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/app/components/ui/popover";
 import SelectLeader from "./SelectlLeader";
 import SelectDepartment from "./SelectDepartment";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Textarea } from "@/components/ui/textarea";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/app/components/ui/tabs";
+import { Textarea } from "@/app/components/ui/textarea";
 import SelectMembers from "./SelectMembers";
 import {
   Select,
@@ -42,7 +47,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/app/components/ui/select";
 import { createProjectAction } from "@/util/actions/Admin/ManageProjectsActions";
 
 export default function AddProject() {

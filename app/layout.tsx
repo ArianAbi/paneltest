@@ -1,15 +1,15 @@
 import localFont from "next/font/local";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { Toaster } from "@/components/ui/toaster";
+import Header from "@/app/components/Header";
+import Footer from "@/app/components/Footer";
+import { Toaster } from "@/app/components/ui/toaster";
 import { createClient } from "@/util/supabase/SupabaseServer";
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebar } from "@/components/ui/AppSidebar";
+import { SidebarProvider, SidebarTrigger } from "@/app/components/ui/sidebar";
+import { AppSidebar } from "@/app/components/ui/AppSidebar";
 import { Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
-import { TooltipContent, TooltipProvider } from "@/components/ui/tooltip";
-import TopLoader from "@/components/Toploader";
-import AdminUsersListContext from "@/components/AdminUsersListContext";
+import { TooltipContent, TooltipProvider } from "@/app/components/ui/tooltip";
+import TopLoader from "@/app/components/Toploader";
+import AdminUsersListContext from "@/app/components/AdminUsersListContext";
 import CurrectUserContext from "@/util/CurrentUserContext";
 import { Database } from "@/database.types";
 

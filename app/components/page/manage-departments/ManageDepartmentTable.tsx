@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
+import { Button } from "@/app/components/ui/button";
 import {
   Table,
   TableBody,
@@ -8,12 +8,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
+} from "@/app/components/ui/table";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover";
+} from "@/app/components/ui/popover";
 import { PopoverClose } from "@radix-ui/react-popover";
 import { Database } from "@/database.types";
 import { useState } from "react";

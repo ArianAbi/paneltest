@@ -1,5 +1,5 @@
-import AddProject from "@/components/page/manage-projects/AddProject";
-import ProjectCard from "@/components/page/manage-projects/ProjectCard";
+import AddProject from "@/app/components/page/manage-projects/AddProject";
+import ProjectCard from "@/app/components/page/manage-projects/ProjectCard";
 import { createClient } from "@/util/supabase/SupabaseServer";
 
 export default async function ManageProjects() {

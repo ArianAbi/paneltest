@@ -8,19 +8,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@/components/ui/form";
+} from "@/app/components/ui/form";
 import UserIcon from "@/icons/User";
-import { Input } from "@/components/ui/input";
+import { Input } from "@/app/components/ui/input";
 import { Dialog, DialogTitle, DialogTrigger } from "@radix-ui/react-dialog";
 import {
   DialogClose,
   DialogContent,
   DialogHeader,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
+} from "@/app/components/ui/dialog";
+import { Button } from "@/app/components/ui/button";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import ErrorInput from "@/components/ErrorInput";
+import ErrorInput from "@/app/components/ErrorInput";
 import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { createDepartmentAction } from "@/util/actions/Admin/ManageDepartmentsActions";
