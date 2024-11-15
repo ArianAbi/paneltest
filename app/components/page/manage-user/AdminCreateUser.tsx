@@ -93,7 +93,13 @@ export default function AdminCreateUser() {
       );
       setOpen(false);
       toast({
-        title: "Account Created for " + data.first_name + data.last_name,
+        title: "Account Created",
+        description: (
+          <p className="text-emerald-400">
+            Account Created Succesfully -{" "}
+            <span className="font-bold text-white">{data.email}</span>
+          </p>
+        ),
       });
 
       router.refresh();

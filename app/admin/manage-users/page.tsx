@@ -7,7 +7,9 @@ export default async function ManageUser() {
 
   const { data: _users, error: _users_error } = await supabase
     .from("users")
-    .select("*");
+    .select("*")
+    .order("role", { ascending: false })
+    .order("first_name");
 
   if (_users_error) {
     throw _users_error.message;

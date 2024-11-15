@@ -20,7 +20,7 @@ import { useState } from "react";
 import { useToast } from "@/hooks/use-toast";
 import { Database } from "@/database.types";
 import { useRouter } from "next/navigation";
-// import AdminEditUser from "./AdminEditUser";
+import AdminEditUser from "./AdminEditUser";
 import TrashIcon from "@/icons/Trash";
 
 export default function ManageUserTable({
@@ -142,7 +142,7 @@ export default function ManageUserTable({
                     </Popover>
                   )}
 
-                  {/* <AdminEditUser user={user} /> */}
+                  <AdminEditUser user={user} />
                 </TableCell>
               </TableRow>
             );

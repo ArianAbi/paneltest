@@ -101,7 +101,10 @@ export default function AdminEditUser({
       );
       setOpen(false);
       toast({
-        title: "Account Created for " + data.first_name + data.last_name,
+        title: "Account Updated",
+        description: (
+          <p className="text-emerald-400">Account Updated Successfully</p>
+        ),
       });
 
       router.refresh();
@@ -120,7 +123,7 @@ export default function AdminEditUser({
         </DialogTrigger>
         <DialogContent className="border-cyan-600">
           <DialogHeader>
-            <DialogTitle>Edit</DialogTitle>
+            <DialogTitle className="font-bold">Edit - {user.email}</DialogTitle>
           </DialogHeader>
 
           <Form {...form}>
