@@ -95,7 +95,7 @@ export default function SelectMembers({ value, setValue }: SelectLeader) {
                   users.map((user) => (
                     <CommandItem
                       key={user.id}
-                      value={user.email ? user.id : user.id}
+                      value={user.email ? user.email : user.id}
                     >
                       {user.email} - {user.first_name + " " + user.last_name}
                       {/*display add button if this user is not on the list */}

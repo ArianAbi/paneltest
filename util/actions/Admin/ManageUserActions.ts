@@ -118,7 +118,6 @@ export const AdminUpdateUserAction = async (
     .select();
 
   console.log(_update_public_user_error);
-  console.log(id);
   if (_update_public_user_error) {
     throw _update_public_user_error.message;
   }

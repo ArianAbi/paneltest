@@ -332,7 +332,7 @@ export default function AddProject() {
                       control={form.control}
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Staff</FormLabel>
+                          <FormLabel>Members</FormLabel>
                           <FormControl>
                             <SelectMembers
                               value={field.value}

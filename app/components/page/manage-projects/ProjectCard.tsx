@@ -85,7 +85,6 @@ export default function ProjectCard({ project_data }: ProjectData) {
       const userIndex = allUsers.findIndex(
         (user) => user.id === member.user_id
       );
-      console.log(userIndex);
 
       if (userIndex != -1) {
         _members.push(allUsers[userIndex]);
