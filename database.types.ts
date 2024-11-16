@@ -160,6 +160,7 @@ export type Database = {
           last_name: string | null
           phone: string | null
           profile_base64_img: string | null
+          profile_picture_path: string | null
           role: Database["public"]["Enums"]["role"] | null
         }
         Insert: {
@@ -171,6 +172,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           profile_base64_img?: string | null
+          profile_picture_path?: string | null
           role?: Database["public"]["Enums"]["role"] | null
         }
         Update: {
@@ -182,6 +184,7 @@ export type Database = {
           last_name?: string | null
           phone?: string | null
           profile_base64_img?: string | null
+          profile_picture_path?: string | null
           role?: Database["public"]["Enums"]["role"] | null
         }
         Relationships: []

@@ -3,7 +3,6 @@ import "./globals.css";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { Toaster } from "@/app/components/ui/toaster";
-import { createClient } from "@/util/supabase/SupabaseServer";
 import { SidebarProvider, SidebarTrigger } from "@/app/components/ui/sidebar";
 import { AppSidebar } from "@/app/components/ui/AppSidebar";
 import { Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
@@ -11,7 +10,8 @@ import { TooltipContent, TooltipProvider } from "@/app/components/ui/tooltip";
 import TopLoader from "@/app/components/Toploader";
 import AdminUsersListContext from "@/app/components/AdminUsersListContext";
 import CurrectUserContext from "@/util/CurrentUserContext";
-import { Database } from "@/database.types";
+import { getCurrentUserAction } from "@/util/actions/CurrentUserAction";
+import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -29,32 +29,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const supabase = await createClient();
-
-  let currenctUser:
-    | undefined
-    | null
-    | Database["public"]["Tables"]["users"]["Row"] = undefined;
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  if (user) {
-    const { data: _current_user } = await supabase
-      .from("users")
-      .select("*")
-      .eq("id", user.id)
-      .single();
-
-    if (_current_user) {
-      currenctUser = _current_user;
-    } else {
-      currenctUser = null;
-    }
-  } else {
-    currenctUser = null;
-  }
+  const currenctUser = await getCurrentUserAction();
 
   return (
     <html lang="en" className="dark">
@@ -85,6 +60,9 @@ export default async function RootLayout({
             </AdminUsersListContext>
           </CurrectUserContext>
         </TooltipProvider>
+        <div>
+          <SonnerToaster />
+        </div>
       </body>
     </html>
   );

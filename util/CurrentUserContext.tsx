@@ -2,9 +2,8 @@
 
 import { Database } from "@/database.types";
 import { createContext, ReactNode, useEffect, useState } from "react";
-import { createClient } from "./supabase/SupabaseClient";
 
-export const currectUserCTX = createContext<
+export const currentUserCTX = createContext<
   undefined | null | Database["public"]["Tables"]["users"]["Row"]
 >(undefined);
 
@@ -26,8 +25,8 @@ export default function CurrectUserContext({
   }, []);
 
   return (
-    <currectUserCTX.Provider value={currectUserState}>
+    <currentUserCTX.Provider value={currectUserState}>
       {children}
-    </currectUserCTX.Provider>
+    </currentUserCTX.Provider>
   );
 }

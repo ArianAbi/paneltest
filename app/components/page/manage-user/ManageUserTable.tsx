@@ -22,6 +22,7 @@ import { Database } from "@/database.types";
 import { useRouter } from "next/navigation";
 import AdminEditUser from "./AdminEditUser";
 import TrashIcon from "@/icons/Trash";
+import UserProfile from "../../UserProfile";
 
 export default function ManageUserTable({
   users,
@@ -64,6 +65,7 @@ export default function ManageUserTable({
       <Table>
         <TableHeader>
           <TableRow>
+            <TableHead className="w-12"></TableHead>
             <TableHead>First Name</TableHead>
             <TableHead>Last Name</TableHead>
             <TableHead>Email</TableHead>
@@ -80,6 +82,11 @@ export default function ManageUserTable({
 
             return (
               <TableRow key={_i}>
+                <TableCell>
+                  <div>
+                    <UserProfile user={user} text={false} />
+                  </div>
+                </TableCell>
                 <TableCell>
                   {user.first_name ? user.first_name : "_unnamed_"}
                 </TableCell>

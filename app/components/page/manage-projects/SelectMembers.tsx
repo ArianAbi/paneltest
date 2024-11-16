@@ -131,7 +131,7 @@ export default function SelectMembers({ value, setValue }: SelectLeader) {
 
         {!users && <p>Could not fetch users</p>}
 
-        <div className="flex gap-2 items-start justify-start mb-3 mt-4 mx-4">
+        <div className="flex flex-wrap gap-2 items-start justify-start mb-3 mt-4 mx-4">
           {users &&
             value.map((id, _i) => {
               const currentUser = users.find((user) => user.id === id);

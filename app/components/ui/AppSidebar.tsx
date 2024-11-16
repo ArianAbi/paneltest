@@ -14,6 +14,7 @@ import { Database } from "@/database.types";
 import BuildingsIcon from "@/icons/Buildings";
 import ComputerIcon from "@/icons/Computer";
 import HomeIcon from "@/icons/Home";
+import ProfileIcon from "@/icons/Profile";
 import UserIcon from "@/icons/User";
 import Link from "next/link";
 
@@ -43,6 +44,11 @@ export function AppSidebar({
       url: "/admin/manage-projects",
       icon: <ComputerIcon />,
     },
+    {
+      title: "Profile",
+      url: "/profile",
+      icon: <ProfileIcon />,
+    },
   ];
 
   const userItems = [
@@ -50,6 +56,11 @@ export function AppSidebar({
       title: "Home",
       url: "/",
       icon: <HomeIcon />,
+    },
+    {
+      title: "Profile",
+      url: "/profile",
+      icon: <ProfileIcon />,
     },
   ];
 
