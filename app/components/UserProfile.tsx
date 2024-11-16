@@ -56,7 +56,8 @@ export default function UserProfile({
       } else {
         return null;
       }
-    } catch (err) {
+    } catch (err: any) {
+      console.log(err);
       return null;
     }
   }
