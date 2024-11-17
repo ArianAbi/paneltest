@@ -9,7 +9,7 @@ export default async function ManageTasks({
 }) {
   const supabase = await createClient();
 
-  const { data: _tasks, error: _tasks_error } = await supabase
+  const { data: _tasks } = await supabase
     .from("tasks")
     .select(
       `*,

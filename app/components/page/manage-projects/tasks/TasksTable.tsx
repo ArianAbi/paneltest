@@ -66,7 +66,7 @@ export default function TasksTable({
                   </HoverCard>
                 </TableCell>
                 <TableCell>
-                  {/* @ts-expect-error */}
+                  {/* @ts-expect-error: need to adjust the type chack later */}
                   <UserProfile user={task.assigend_to} />
                 </TableCell>
                 <TableCell>
@@ -96,7 +96,7 @@ export default function TasksTable({
                   </span>
                 </TableCell>
                 <TableCell>{task.deadline}</TableCell>
-                {/* @ts-expect-error */}
+                {/* @ts-expect-error: need to adjust the type chack later */}
                 <TableCell>{task.department.name}</TableCell>
                 <TableCell>Actions</TableCell>
               </TableRow>
