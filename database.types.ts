@@ -114,36 +114,59 @@ export type Database = {
       }
       tasks: {
         Row: {
-          assigned_to: string[] | null
+          assigend_to: string
           created_at: string
+          deadline: string | null
+          department: string
           description: string
           id: string
-          project: string | null
-          status: Database["public"]["Enums"]["task_status"] | null
+          priority: Database["public"]["Enums"]["project_priority"]
+          project_id: string
+          status: Database["public"]["Enums"]["task_status"]
           title: string
         }
         Insert: {
-          assigned_to?: string[] | null
+          assigend_to: string
           created_at?: string
+          deadline?: string | null
+          department: string
           description: string
           id?: string
-          project?: string | null
-          status?: Database["public"]["Enums"]["task_status"] | null
+          priority: Database["public"]["Enums"]["project_priority"]
+          project_id: string
+          status?: Database["public"]["Enums"]["task_status"]
           title: string
         }
         Update: {
-          assigned_to?: string[] | null
+          assigend_to?: string
           created_at?: string
+          deadline?: string | null
+          department?: string
           description?: string
           id?: string
-          project?: string | null
-          status?: Database["public"]["Enums"]["task_status"] | null
+          priority?: Database["public"]["Enums"]["project_priority"]
+          project_id?: string
+          status?: Database["public"]["Enums"]["task_status"]
           title?: string
         }
         Relationships: [
           {
-            foreignKeyName: "tasks_project_fkey"
-            columns: ["project"]
+            foreignKeyName: "tasks_assigend_to_fkey"
+            columns: ["assigend_to"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "department"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "project"
             referencedColumns: ["id"]
@@ -204,7 +227,7 @@ export type Database = {
         | "unset"
       project_priority: "low" | "medium" | "high"
       role: "user" | "admin"
-      task_status: "not-started" | "under-development" | "done"
+      task_status: "not-started" | "pending" | "done"
     }
     CompositeTypes: {
       [_ in never]: never

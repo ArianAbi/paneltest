@@ -43,14 +43,17 @@ export default async function RootLayout({
               <Header user={currenctUser} />
               <SidebarProvider defaultOpen={false}>
                 <AppSidebar user={currenctUser} />
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <SidebarTrigger className="ml-2 block md:hidden" />
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <span>Menu</span>
-                  </TooltipContent>
-                </Tooltip>
+
+                <div>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <SidebarTrigger className="ml-2 block md:hidden" />
+                    </TooltipTrigger>
+                    <TooltipContent side="bottom">
+                      <span>Menu</span>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
                 <div className="py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
                   <main className="container mx-auto">{children}</main>
                 </div>

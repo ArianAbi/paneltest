@@ -15,6 +15,7 @@ import { Database } from "@/database.types";
 import { createClient } from "@/util/supabase/SupabaseClient";
 import { useContext, useEffect, useState } from "react";
 import { allUsersContext } from "../../AdminUsersListContext";
+import Link from "next/link";
 
 interface ProjectData {
   project_data: Database["public"]["Tables"]["project"]["Row"] & {
@@ -51,28 +52,6 @@ export default function ProjectCard({ project_data }: ProjectData) {
     setLeader(_leader);
   }
 
-  // async function fetchMembers() {
-  //   if (!project_data.project_members) {
-  //     return;
-  //   }
-
-  //   const ids = project_data.project_members.map((memb) => memb.user_id);
-
-  //   try {
-  //     if (ids) {
-  //       const members = await getUsersFromIdsAction(ids as string[]);
-
-  //       if (members) {
-  //         setMembers(members as Database["public"]["Tables"]["users"]["Row"][]);
-  //       }
-  //     }
-  //   } catch (err) {
-  //     console.log(err);
-  //   } finally {
-  //     setMembersLoading(false);
-  //   }
-  // }
-
   async function getMembers() {
     if (!project_data.project_members || !allUsers) {
       setMembersLoading(false);
@@ -103,7 +82,6 @@ export default function ProjectCard({ project_data }: ProjectData) {
 
   useEffect(() => {
     getLeader();
-    // fetchMembers();
   }, []);
 
   useEffect(() => {}, [allUsers]);
@@ -144,7 +122,11 @@ export default function ProjectCard({ project_data }: ProjectData) {
           </div>
         </CardContent>
         <CardFooter className="flex justify-between">
-          <Button variant="outline">Cancel</Button>
+          <Button variant="outline" asChild>
+            <Link href={`${window.location.pathname}/tasks/${project_data.id}`}>
+              Manage Tasks
+            </Link>
+          </Button>
           <Button variant={"destructive"}>Delete</Button>
         </CardFooter>
       </Card>

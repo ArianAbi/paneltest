@@ -6,7 +6,6 @@ import {
   SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -82,7 +81,7 @@ export function AppSidebar({
     >
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel className="text-sm">Application</SidebarGroupLabel>
+          {/* <SidebarGroupLabel className="text-sm">Application</SidebarGroupLabel> */}
           <SidebarGroupContent>
             <SidebarMenu>
               {user && user.role === "admin"
@@ -124,25 +123,29 @@ export function AppSidebar({
       </SidebarContent>
       {/* footer for desktop */}
       <SidebarFooter className="hidden items-center justify-center md:flex">
-        {user ? (
-          <UserProfile
-            user={user}
-            text={open}
-            size={open ? "medium" : "small"}
-            absoluteText
-          />
-        ) : (
-          <Skeleton className="size-8 rounded-full" />
-        )}
+        <div>
+          {user ? (
+            <UserProfile
+              user={user}
+              text={open}
+              size={open ? "medium" : "small"}
+              absoluteText
+            />
+          ) : (
+            <Skeleton className="size-8 rounded-full" />
+          )}
+        </div>
       </SidebarFooter>
 
       {/* footer for mobile */}
       <SidebarFooter className="flex items-center justify-center md:hidden">
-        {user ? (
-          <UserProfile user={user} size="medium" />
-        ) : (
-          <Skeleton className="size-8 rounded-full" />
-        )}
+        <div>
+          {user ? (
+            <UserProfile user={user} size="medium" />
+          ) : (
+            <Skeleton className="size-8 rounded-full" />
+          )}
+        </div>
       </SidebarFooter>
     </Sidebar>
   );
