@@ -2,11 +2,13 @@ import AddTask from "@/app/components/page/manage-projects/tasks/AddTask";
 import TasksTable from "@/app/components/page/manage-projects/tasks/TasksTable";
 import { createClient } from "@/util/supabase/SupabaseServer";
 
-export default async function ManageTasks({
-  params: { project_id },
-}: {
-  params: { project_id: string };
-}) {
+type Props = {
+  params: Promise<{ project_id: string }>;
+};
+
+export default async function ManageTasks({ params }: Props) {
+  const project_id = (await params).project_id;
+
   const supabase = await createClient();
 
   const { data: _tasks } = await supabase
