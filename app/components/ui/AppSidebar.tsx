@@ -122,7 +122,8 @@ export function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="flex items-center justify-center">
+      {/* footer for desktop */}
+      <SidebarFooter className="hidden items-center justify-center md:flex">
         {user ? (
           <UserProfile
             user={user}
@@ -130,6 +131,15 @@ export function AppSidebar({
             size={open ? "medium" : "small"}
             absoluteText
           />
+        ) : (
+          <Skeleton className="size-8 rounded-full" />
+        )}
+      </SidebarFooter>
+
+      {/* footer for mobile */}
+      <SidebarFooter className="flex items-center justify-center md:hidden">
+        {user ? (
+          <UserProfile user={user} size="medium" />
         ) : (
           <Skeleton className="size-8 rounded-full" />
         )}
