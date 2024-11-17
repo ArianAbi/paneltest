@@ -20,6 +20,7 @@ import {
 } from "@/app/components/ui/popover";
 import { Database } from "@/database.types";
 import { allUsersContext } from "@/app/components/AdminUsersListContext";
+import UserProfile from "../../UserProfile";
 
 interface SelectLeader {
   value: string;
@@ -87,10 +88,8 @@ export default function SelectLeader({ value, setValue }: SelectLeader) {
                         value === user.id ? "opacity-100" : "opacity-0"
                       )}
                     />
-                    <span>{user.email}</span>
-                    <span className="ml-auto">
-                      {user.first_name + " " + user.last_name}
-                    </span>
+                    <UserProfile user={user} />
+                    <span className="ml-auto">{user.email}</span>
                   </CommandItem>
                 ))}
             </CommandGroup>

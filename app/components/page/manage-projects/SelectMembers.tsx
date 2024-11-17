@@ -97,26 +97,29 @@ export default function SelectMembers({ value, setValue }: SelectLeader) {
                       key={user.id}
                       value={user.email ? user.email : user.id}
                     >
-                      {user.email} - {user.first_name + " " + user.last_name}
-                      {/*display add button if this user is not on the list */}
-                      {!value.find((id) => id === user.id) && (
-                        <Button
-                          onClick={() => addUser(user.id)}
-                          className="ml-auto"
-                        >
-                          Add
-                        </Button>
-                      )}
-                      {/*display remove button if this id is on the list*/}
-                      {value.find((id) => id === user.id) && (
-                        <Button
-                          onClick={() => removeUser(user.id)}
-                          variant={"destructive"}
-                          className="ml-auto"
-                        >
-                          Remove
-                        </Button>
-                      )}
+                      <UserProfile user={user} />
+
+                      <div className="ml-auto flex items-center gap-2">
+                        <span>{user.email}</span>
+                        {/*display add button if this user is not on the list */}
+                        {!value.find((id) => id === user.id) && (
+                          <Button
+                            onClick={() => addUser(user.id)}
+                            className="ml-auto"
+                          >
+                            Add
+                          </Button>
+                        )}
+                        {/*display remove button if this id is on the list*/}
+                        {value.find((id) => id === user.id) && (
+                          <Button
+                            onClick={() => removeUser(user.id)}
+                            variant={"destructive"}
+                          >
+                            Remove
+                          </Button>
+                        )}
+                      </div>
                     </CommandItem>
                   ))}
               </CommandGroup>
