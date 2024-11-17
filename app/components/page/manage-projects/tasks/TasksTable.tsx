@@ -19,7 +19,7 @@ import { Database } from "@/database.types";
 export default function TasksTable({
   tasks,
 }: {
-  tasks: Database["public"]["Tables"]["tasks"]["Row"][];
+  tasks: Database["public"]["Tables"]["tasks"]["Row"][] | null;
 }) {
   if (!tasks) {
     return (

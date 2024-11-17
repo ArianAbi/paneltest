@@ -62,8 +62,6 @@ export default function AdminUsersListContext({
         .from("users")
         .select("*");
 
-      console.log(_user);
-
       if (_users_error) {
         throw _users_error.message;
       }
