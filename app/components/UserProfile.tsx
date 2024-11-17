@@ -5,15 +5,18 @@ import Image from "next/image";
 import { HoverCard, HoverCardContent, HoverCardTrigger } from "./ui/hover-card";
 import { createClient } from "@/util/supabase/SupabaseClient";
 import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 
 export default function UserProfile({
   user,
   text = true,
   size = "small",
+  absoluteText = false,
 }: {
   user: Database["public"]["Tables"]["users"]["Row"];
   text?: boolean;
   size?: "small" | "medium" | "large";
+  absoluteText?: boolean;
 }) {
   const [profileImg, setProfileImg] = useState<string | null>(null);
 
@@ -73,10 +76,14 @@ export default function UserProfile({
   return (
     <HoverCard>
       <HoverCardTrigger>
-        <div className="flex items-center underline cursor-pointer">
+        <div
+          className={`flex items-center underline cursor-pointer relative transition-all ${
+            absoluteText ? (text === true ? "w-40" : "w-[38px]") : ""
+          }`}
+        >
           {/* profile */}
           <div
-            className={`aspect-square relative rounded-full overflow-hidden ${
+            className={`aspect-square relative rounded-full overflow-hidden transition-all  ${
               size === "small"
                 ? "size-8"
                 : size === "medium"
@@ -102,7 +109,7 @@ export default function UserProfile({
                 // default image
                 <div
                   className={
-                    `size-full rounded-full flex items-center justify-center` +
+                    `size-full rounded-full flex items-center justify-center ` +
                     randomColor
                   }
                 >
@@ -114,7 +121,33 @@ export default function UserProfile({
               )
             }
           </div>
-          {text && <p className="my-0 ml-2">{user.first_name}</p>}
+          {absoluteText && (
+            <AnimatePresence>
+              {text && (
+                <motion.p
+                  transition={{ duration: "0.2" }}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  className="my-0 ml-2 absolute top-2/4 -translate-y-2/4 left-12"
+                >
+                  {user.first_name}
+                </motion.p>
+              )}
+            </AnimatePresence>
+          )}
+
+          {!absoluteText && text && (
+            <motion.p
+              transition={{ duration: "0.2" }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="my-0 ml-2"
+            >
+              {user.first_name}
+            </motion.p>
+          )}
         </div>
       </HoverCardTrigger>
 

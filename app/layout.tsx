@@ -3,10 +3,9 @@ import "./globals.css";
 import Header from "@/app/components/Header";
 import Footer from "@/app/components/Footer";
 import { Toaster } from "@/app/components/ui/toaster";
-import { SidebarProvider, SidebarTrigger } from "@/app/components/ui/sidebar";
+import { SidebarProvider } from "@/app/components/ui/sidebar";
 import { AppSidebar } from "@/app/components/ui/AppSidebar";
-import { Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
-import { TooltipContent, TooltipProvider } from "@/app/components/ui/tooltip";
+import { TooltipProvider } from "@/app/components/ui/tooltip";
 import TopLoader from "@/app/components/Toploader";
 import AdminUsersListContext from "@/app/components/AdminUsersListContext";
 import CurrectUserContext from "@/util/CurrentUserContext";
@@ -34,7 +33,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-svh `}
+        className={`${geistSans.variable} ${geistMono.variable} pl-12 antialiased flex flex-col min-h-svh `}
       >
         <TopLoader />
         <TooltipProvider>
@@ -43,14 +42,6 @@ export default async function RootLayout({
               <Header user={currenctUser} />
               <SidebarProvider defaultOpen={false}>
                 <AppSidebar user={currenctUser} />
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <SidebarTrigger className="ml-2" />
-                  </TooltipTrigger>
-                  <TooltipContent side="bottom">
-                    <span>Menu</span>
-                  </TooltipContent>
-                </Tooltip>
                 <div className="py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
                   <main className="container mx-auto">{children}</main>
                 </div>

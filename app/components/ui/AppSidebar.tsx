@@ -3,12 +3,14 @@
 import {
   Sidebar,
   SidebarContent,
+  SidebarFooter,
   SidebarGroup,
   SidebarGroupContent,
   SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
+  useSidebar,
 } from "@/app/components/ui/sidebar";
 import { Database } from "@/database.types";
 import BuildingsIcon from "@/icons/Buildings";
@@ -17,6 +19,8 @@ import HomeIcon from "@/icons/Home";
 import ProfileIcon from "@/icons/Profile";
 import UserIcon from "@/icons/User";
 import Link from "next/link";
+import UserProfile from "../UserProfile";
+import { Skeleton } from "./skeleton";
 
 export function AppSidebar({
   user,
@@ -64,8 +68,18 @@ export function AppSidebar({
     },
   ];
 
+  const { open, setOpen } = useSidebar();
+
   return (
-    <Sidebar>
+    <Sidebar
+      collapsible="icon"
+      onMouseEnter={() => {
+        setOpen(true);
+      }}
+      onMouseLeave={() => {
+        setOpen(false);
+      }}
+    >
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel className="text-sm">Application</SidebarGroupLabel>
@@ -108,6 +122,18 @@ export function AppSidebar({
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="flex items-center justify-center">
+        {user ? (
+          <UserProfile
+            user={user}
+            text={open}
+            size={open ? "medium" : "small"}
+            absoluteText
+          />
+        ) : (
+          <Skeleton className="size-8 rounded-full" />
+        )}
+      </SidebarFooter>
     </Sidebar>
   );
 }
