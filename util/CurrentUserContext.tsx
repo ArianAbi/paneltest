@@ -7,7 +7,7 @@ export const currentUserCTX = createContext<
   undefined | null | Database["public"]["Tables"]["users"]["Row"]
 >(undefined);
 
-export default function CurrectUserContext({
+export default function CurrectUserContextProvider({
   children,
   user,
 }: {

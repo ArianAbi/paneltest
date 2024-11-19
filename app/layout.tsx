@@ -9,9 +9,10 @@ import { Tooltip, TooltipTrigger } from "@radix-ui/react-tooltip";
 import { TooltipContent, TooltipProvider } from "@/app/components/ui/tooltip";
 import TopLoader from "@/app/components/Toploader";
 import AdminUsersListContext from "@/app/components/AdminUsersListContext";
-import CurrectUserContext from "@/util/CurrentUserContext";
+import CurrectUserContextProvider from "@/util/CurrentUserContext";
 import { getCurrentUserFromCookieAction } from "@/util/actions/CurrentUserAction";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
+import NotificationProvider from "./components/ContextProvider/Notification/NotificationProvider";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -38,9 +39,12 @@ export default async function RootLayout({
       >
         <TopLoader />
         <TooltipProvider>
-          <CurrectUserContext user={currenctUser}>
+          <CurrectUserContextProvider user={currenctUser}>
             <AdminUsersListContext>
-              <Header user={currenctUser} />
+              <NotificationProvider>
+                <Header user={currenctUser} />
+              </NotificationProvider>
+
               <SidebarProvider defaultOpen={false}>
                 <AppSidebar user={currenctUser} />
 
@@ -61,7 +65,7 @@ export default async function RootLayout({
               </SidebarProvider>
               <Footer />
             </AdminUsersListContext>
-          </CurrectUserContext>
+          </CurrectUserContextProvider>
         </TooltipProvider>
         <div>
           <SonnerToaster />

@@ -30,6 +30,41 @@ export type Database = {
         }
         Relationships: []
       }
+      notifications: {
+        Row: {
+          created_at: string
+          description: string | null
+          notification_id: string
+          seen: boolean
+          title: string
+          user_id: string | null
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          notification_id: string
+          seen?: boolean
+          title: string
+          user_id?: string | null
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          notification_id?: string
+          seen?: boolean
+          title?: string
+          user_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "notifications_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project: {
         Row: {
           created_at: string
@@ -122,6 +157,7 @@ export type Database = {
           id: string
           priority: Database["public"]["Enums"]["project_priority"]
           project_id: string
+          seen: boolean
           status: Database["public"]["Enums"]["task_status"]
           title: string
         }
@@ -134,6 +170,7 @@ export type Database = {
           id?: string
           priority: Database["public"]["Enums"]["project_priority"]
           project_id: string
+          seen?: boolean
           status?: Database["public"]["Enums"]["task_status"]
           title: string
         }
@@ -146,6 +183,7 @@ export type Database = {
           id?: string
           priority?: Database["public"]["Enums"]["project_priority"]
           project_id?: string
+          seen?: boolean
           status?: Database["public"]["Enums"]["task_status"]
           title?: string
         }
@@ -169,6 +207,60 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "project"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tickets: {
+        Row: {
+          assigned_to: string
+          created_at: string
+          date_from: string | null
+          date_to: string | null
+          department: string | null
+          description: string
+          id: string
+          priority: Database["public"]["Enums"]["project_priority"]
+          status: Database["public"]["Enums"]["ticket_status"]
+          subject: string
+        }
+        Insert: {
+          assigned_to: string
+          created_at?: string
+          date_from?: string | null
+          date_to?: string | null
+          department?: string | null
+          description: string
+          id?: string
+          priority?: Database["public"]["Enums"]["project_priority"]
+          status?: Database["public"]["Enums"]["ticket_status"]
+          subject: string
+        }
+        Update: {
+          assigned_to?: string
+          created_at?: string
+          date_from?: string | null
+          date_to?: string | null
+          department?: string | null
+          description?: string
+          id?: string
+          priority?: Database["public"]["Enums"]["project_priority"]
+          status?: Database["public"]["Enums"]["ticket_status"]
+          subject?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tickets_assigned_to_fkey"
+            columns: ["assigned_to"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tickets_department_fkey"
+            columns: ["department"]
+            isOneToOne: false
+            referencedRelation: "department"
             referencedColumns: ["id"]
           },
         ]
@@ -228,6 +320,7 @@ export type Database = {
       project_priority: "low" | "medium" | "high"
       role: "user" | "admin"
       task_status: "not-started" | "pending" | "done"
+      ticket_status: "pending" | "approved" | "returend"
     }
     CompositeTypes: {
       [_ in never]: never
