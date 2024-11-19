@@ -1,7 +1,8 @@
 "use server";
 
+import { revalidatePath } from "next/cache";
 import { createClient } from "../supabase/SupabaseServer";
-import { revalidateCurrentUser } from "./CurrentUserAction";
+import { redirect } from "next/navigation";
 
 export const uploadProfilePictureAction = async (
   user_id: string,
@@ -40,7 +41,7 @@ export const uploadProfilePictureAction = async (
       })
       .eq("id", user_id);
 
-    revalidateCurrentUser();
+    redirect("/profile");
   }
 };
 
@@ -59,5 +60,5 @@ export const updateFirstAndLastname = async (
     })
     .eq("id", user_id);
 
-  revalidateCurrentUser();
+  redirect("/profile");
 };

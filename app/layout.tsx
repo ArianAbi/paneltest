@@ -10,7 +10,7 @@ import { TooltipContent, TooltipProvider } from "@/app/components/ui/tooltip";
 import TopLoader from "@/app/components/Toploader";
 import AdminUsersListContext from "@/app/components/AdminUsersListContext";
 import CurrectUserContext from "@/util/CurrentUserContext";
-import { getCurrentUserAction } from "@/util/actions/CurrentUserAction";
+import { getCurrentUserFromCookieAction } from "@/util/actions/CurrentUserAction";
 import { Toaster as SonnerToaster } from "@/components/ui/sonner";
 
 const geistSans = localFont({
@@ -29,7 +29,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const currenctUser = await getCurrentUserAction();
+  const currenctUser = await getCurrentUserFromCookieAction();
 
   return (
     <html lang="en" className="dark">

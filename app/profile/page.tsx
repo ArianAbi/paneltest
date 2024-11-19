@@ -1,10 +1,10 @@
-import { getCurrentUserAction } from "@/util/actions/CurrentUserAction";
+import { getCurrentUserFromCookieAction } from "@/util/actions/CurrentUserAction";
 import UserProfile from "../components/UserProfile";
 import { Skeleton } from "../components/ui/skeleton";
 import ProfileInputs from "../components/page/profile/ProfileInputs";
 
 export default async function EditProfile() {
-  const currentUser = await getCurrentUserAction();
+  const currentUser = await getCurrentUserFromCookieAction();
 
   return (
     <div className="container max-w-screen-sm mx-auto border border-edge2 rounded-xl p-6 flex flex-col justify-center items-center">

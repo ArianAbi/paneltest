@@ -93,7 +93,7 @@ export default function UserProfile({
   }, [user]);
 
   return (
-    <div>
+    <div key={user.id}>
       <HoverCard>
         <HoverCardTrigger>
           <div
@@ -150,10 +150,10 @@ export default function UserProfile({
                 {text && (
                   <motion.p
                     transition={{ duration: "0.2" }}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    exit={{ opacity: 0 }}
-                    className="my-0 ml-2 absolute top-2/4 -translate-y-2/4 left-12"
+                    initial={{ opacity: 0, left: "-3rem" }}
+                    animate={{ opacity: 1, left: "2.5rem" }}
+                    exit={{ opacity: 0, left: "-3rem" }}
+                    className="my-0 ml-2 absolute top-2/4 -translate-y-2/4 left-10"
                   >
                     {user.first_name}
                   </motion.p>

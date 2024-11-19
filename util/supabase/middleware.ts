@@ -35,6 +35,24 @@ export const updateSession = async (request: NextRequest) => {
       }
     );
 
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
+
+    if (session?.user) {
+      const { data: _user, error } = await supabase
+        .from("users")
+        .select("*")
+        .eq("id", session.user.id)
+        .single();
+
+      if (!error && _user) {
+        response.cookies.set("currentUser", JSON.stringify(_user));
+      }
+    } else {
+      response.cookies.delete("currentUser");
+    }
+
     // This will refresh session if expired - required for Server Components
     // https://supabase.com/docs/guides/auth/server-side/nextjs
     // const user = await supabase.auth.getUser();
