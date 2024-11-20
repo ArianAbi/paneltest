@@ -35,14 +35,16 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} md:pl-12 antialiased flex flex-col min-h-svh `}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-svh `}
       >
         <TopLoader />
         <TooltipProvider>
           <CurrectUserContextProvider user={currenctUser}>
             <AdminUsersListContext>
               <NotificationProvider>
-                <Header user={currenctUser} />
+                <div className="w-full md:pl-12">
+                  <Header user={currenctUser} />
+                </div>
               </NotificationProvider>
 
               <SidebarProvider defaultOpen={false}>
@@ -58,12 +60,14 @@ export default async function RootLayout({
                     </TooltipContent>
                   </Tooltip>
                 </div>
-                <div className="py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
+                <div className="md:pl-12 py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
                   <main className="container mx-auto">{children}</main>
                 </div>
                 <Toaster />
               </SidebarProvider>
-              <Footer />
+              <div className="w-full md:pl-12">
+                <Footer />
+              </div>
             </AdminUsersListContext>
           </CurrectUserContextProvider>
         </TooltipProvider>
