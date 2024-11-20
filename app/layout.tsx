@@ -53,14 +53,14 @@ export default async function RootLayout({
                 <div>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <SidebarTrigger className="ml-2 block md:hidden" />
+                      <SidebarTrigger className="ml-2 block md:hidden absolute left-4" />
                     </TooltipTrigger>
                     <TooltipContent side="bottom">
                       <span>Menu</span>
                     </TooltipContent>
                   </Tooltip>
                 </div>
-                <div className="md:pl-12 py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
+                <div className=" py-8 w-full prose prose-invert prose-img:my-0 prose-a:no-underline max-w-full">
                   <main className="container mx-auto">{children}</main>
                 </div>
                 <Toaster />

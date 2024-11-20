@@ -20,6 +20,7 @@ import UserIcon from "@/icons/User";
 import Link from "next/link";
 import UserProfile from "../UserProfile";
 import { Skeleton } from "./skeleton";
+import TicketIcon from "@/icons/Ticket";
 
 export function AppSidebar({
   user,
@@ -46,6 +47,11 @@ export function AppSidebar({
       title: "Manage Projects",
       url: "/admin/manage-projects",
       icon: <ComputerIcon />,
+    },
+    {
+      title: "My Tasks",
+      url: "/my-tasks",
+      icon: <TicketIcon />,
     },
     {
       title: "Profile",
@@ -122,15 +128,10 @@ export function AppSidebar({
         </SidebarGroup>
       </SidebarContent>
       {/* footer for desktop */}
-      <SidebarFooter className="hidden items-center justify-center md:flex">
+      <SidebarFooter className="hidden items-start justify-center md:flex">
         <div>
           {user ? (
-            <UserProfile
-              user={user}
-              text={open}
-              size={open ? "medium" : "small"}
-              absoluteText
-            />
+            <UserProfile user={user} text={open} absoluteText />
           ) : (
             <Skeleton className="size-8 rounded-full" />
           )}
