@@ -10,6 +10,13 @@ import { useContext, useEffect, useState } from "react";
 import { notificationProvideCTX } from "./ContextProvider/Notification/NotificationProvider";
 import Notification from "./Notifications";
 import { motion } from "framer-motion";
+import {
+  Dialog,
+  DialogClose,
+  DialogContent,
+  DialogTitle,
+  DialogTrigger,
+} from "./ui/dialog";
 
 export default function Header({
   user,
@@ -49,14 +56,42 @@ export default function Header({
           )}
 
           {user && (
-            <form className="inline border-none" action={signOutAction}>
-              <Button
-                type="submit"
-                className="border-2 font-semibold border-gray-400 rounded-xl px-3 h-full hover:bg-gray-100 hover:border-gray-100 hover:text-black transition-colors"
-              >
-                Logout
-              </Button>
-            </form>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button
+                  type="button"
+                  className="border-2 font-semibold border-gray-400 rounded-xl px-3 h-full hover:bg-gray-100 hover:border-gray-100 hover:text-black transition-colors"
+                >
+                  Logout
+                </Button>
+              </DialogTrigger>
+              <DialogContent>
+                <DialogTitle>
+                  <p>Are You Sure?</p>
+                </DialogTitle>
+
+                <div className="w-full flex gap-2 items-center justify-between mt-4">
+                  <DialogClose asChild>
+                    <Button variant="ghost" className="w-full" type="button">
+                      Cancle
+                    </Button>
+                  </DialogClose>
+
+                  <form
+                    className="inline border-none w-full"
+                    action={signOutAction}
+                  >
+                    <Button
+                      variant="destructive"
+                      type="submit"
+                      className="w-full font-semibold"
+                    >
+                      Logout
+                    </Button>
+                  </form>
+                </div>
+              </DialogContent>
+            </Dialog>
           )}
         </div>
 
