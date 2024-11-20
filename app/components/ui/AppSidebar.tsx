@@ -20,7 +20,7 @@ import UserIcon from "@/icons/User";
 import Link from "next/link";
 import UserProfile from "../UserProfile";
 import { Skeleton } from "./skeleton";
-import TicketIcon from "@/icons/Ticket";
+import { ListTodo } from "lucide-react";
 
 export function AppSidebar({
   user,
@@ -51,7 +51,7 @@ export function AppSidebar({
     {
       title: "My Tasks",
       url: "/my-tasks",
-      icon: <TicketIcon />,
+      icon: <ListTodo />,
     },
     {
       title: "Profile",

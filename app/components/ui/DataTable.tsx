@@ -23,16 +23,7 @@ import {
   TableHeader,
   TableRow,
 } from "./table";
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "./dropdown-menu";
-import { Input } from "./input";
-import { Button } from "./button";
 import { DataTablePagination } from "./DataTablePagination";
-import { DataTableViewOptions } from "./DataTableViewOptions";
 import { DataTableToolbar } from "./DataTableToolbar";
 
 interface DataTableProps<TData, TValue> {

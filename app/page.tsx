@@ -45,9 +45,7 @@ async function getNewTasks(user_id: string) {
       };
     });
 
-    const { data: _notif_insert } = await supabase
-      .from("notifications")
-      .insert(notifsToInsert);
+    await supabase.from("notifications").insert(notifsToInsert);
 
     revalidatePath("/");
   }

@@ -4,9 +4,7 @@ import {
   ArrowUp,
   CheckCircle,
   Circle,
-  CircleOff,
   HelpCircle,
-  Timer,
 } from "lucide-react";
 
 // export const labels = [

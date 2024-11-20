@@ -110,8 +110,8 @@ export const taskColumns: ColumnDef<TaskColumn>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
-      const Task = row.original;
+    cell: () => {
+      // const Task = row.original;
 
       return (
         <DropdownMenu>

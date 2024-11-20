@@ -1,14 +1,5 @@
 import { getCurrentUserFromCookieAction } from "@/util/actions/CurrentUserAction";
 import { createClient } from "@/util/supabase/SupabaseServer";
-import Task from "../components/page/my-tasks/Task";
-import {
-  Table,
-  TableBody,
-  TableHead,
-  TableHeader,
-} from "../components/ui/table";
-import { Button } from "../components/ui/button";
-import { ChevronsUpDown } from "lucide-react";
 import { DataTable } from "../components/ui/DataTable";
 import { taskColumns } from "../components/page/my-tasks/TaskColums";
 
